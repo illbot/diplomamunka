@@ -8,6 +8,14 @@
   transform: translateY(-50%);
 }
 
+#footer {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 10%;
+  transform: translateY(10%);
+}
+
 #container strong {
   font-size: 20px;
   line-height: 26px;

@@ -1,26 +1,42 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Header</ion-title>
+    <ion-title>Fitness App title</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
 
-  <!-- fab placed to the bottom and start and on the bottom edge of the content overlapping footer with a list to the right -->
-  <ion-fab vertical="bottom" horizontal="end" edge slot="fixed">
-    <ion-fab-button>
-      <ion-icon name="settings"></ion-icon>
-    </ion-fab-button>
-    <ion-fab-list side="start">
-      <ion-fab-button><ion-icon name="logo-vimeo"></ion-icon></ion-fab-button>
-      <ion-fab-button><ion-icon name="logo-youtube"></ion-icon></ion-fab-button>
-      <ion-fab-button><ion-icon name="logo-twitter"></ion-icon></ion-fab-button>
-    </ion-fab-list>
-  </ion-fab>
+  <div id="container">
+    <ion-list style="padding-bottom: 25px;">
+      <ion-item>
+        <ion-icon slot="start" name="person-outline"></ion-icon>
+        <ion-input type="text" placeholder="Username"></ion-input>
+      </ion-item>
+  
+      <ion-item>
+        <ion-icon slot="start" name="lock-closed-outline"></ion-icon>
+        <ion-input type="password" placeholder="Password"></ion-input>
+        <ion-icon slot="end" name="eye-outline"></ion-icon>
+      </ion-item>
 
+    </ion-list>
+  
+    <ion-button expand="block" shape="round">
+      Login
+    </ion-button>
+    
+    <ion-button expand="block" fill="outline" shape="round">
+      <ion-icon slot="start" name="logo-google"></ion-icon>
+      Google
+    </ion-button>
+
+    <ion-button expand="block" fill="outline" shape="round">
+      <ion-icon slot="start" name="logo-apple"></ion-icon>
+      Apple
+    </ion-button>
+
+    <ion-button expand="block" fill="clear" shape="round">
+      Register
+    </ion-button>
+  </div>
 </ion-content>
-<ion-footer>
-  <ion-toolbar>
-    <ion-title>Footer</ion-title>
-  </ion-toolbar>
-</ion-footer>
