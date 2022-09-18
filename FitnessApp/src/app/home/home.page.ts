@@ -6,7 +6,18 @@ import { Component } from '@angular/core';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage {
+  passwordVisibility:boolean = false;
+  password: string = "";
+  username: string = "";
 
   constructor() {}
 
+  login(){
+    console.log(this.password);
+    console.log(this.username);
+  }
+
+  togglePasswordVisibility(){
+    this.passwordVisibility = !this.passwordVisibility;
+  }
 }

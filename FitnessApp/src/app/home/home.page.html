@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Fitness App title</ion-title>
+    <ion-title>Fitness App</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -10,32 +10,51 @@
     <ion-list style="padding-bottom: 25px;">
       <ion-item>
         <ion-icon slot="start" name="person-outline"></ion-icon>
-        <ion-input type="text" placeholder="Username"></ion-input>
+        <ion-input type="text" placeholder="Username" [(ngModel)]="username"></ion-input>
       </ion-item>
   
-      <ion-item>
+      <ion-item> <!--Password invisible-->
         <ion-icon slot="start" name="lock-closed-outline"></ion-icon>
-        <ion-input type="password" placeholder="Password"></ion-input>
-        <ion-icon slot="end" name="eye-outline"></ion-icon>
+        <ion-input *ngIf="!passwordVisibility" type="password" placeholder="Password" [(ngModel)]="password"></ion-input>
+        <ion-input *ngIf="passwordVisibility" type="text" placeholder="Password" [(ngModel)]="password"></ion-input>
+
+        <ion-button *ngIf="!passwordVisibility" size="small" fill="clear" shape="round" (click)="togglePasswordVisibility()" class="ion-activatable">
+          <ion-icon name="eye-outline"></ion-icon>
+          <ion-ripple-effect type="bounded"></ion-ripple-effect>
+        </ion-button>
+
+        <ion-button *ngIf="passwordVisibility" size="small" fill="clear" shape="round" (click)="togglePasswordVisibility()" class="ion-activatable">
+          <ion-icon name="eye-off-outline"></ion-icon>
+          <ion-ripple-effect type="bounded"></ion-ripple-effect>
+        </ion-button>
       </ion-item>
+
+      <!--ion-item *ngIf="passwordVisibility"> <!Password visible>
+        <ion-icon slot="start" name="lock-closed-outline"></ion-icon>
+        <ion-input type="text" placeholder="Password" [(ngModel)]="password"></ion-input>
+        <ion-button size="small" fill="clear" shape="round" (click)="togglePasswordVisibility()" class="ion-activatable">
+            <ion-icon name="eye-off-outline"></ion-icon>
+            <ion-ripple-effect type="bounded"></ion-ripple-effect>
+        </ion-button>
+      </ion-item-->
 
     </ion-list>
   
-    <ion-button expand="block" shape="round">
+    <ion-button expand="block" shape="round" (click)="login()">
       Login
     </ion-button>
     
-    <ion-button expand="block" fill="outline" shape="round">
+    <ion-button expand="block" fill="outline" shape="round" (click)="login()">
       <ion-icon slot="start" name="logo-google"></ion-icon>
       Google
     </ion-button>
 
-    <ion-button expand="block" fill="outline" shape="round">
+    <!--ion-button expand="block" fill="outline" shape="round" (click)="login()">
       <ion-icon slot="start" name="logo-apple"></ion-icon>
       Apple
-    </ion-button>
+    </ion-button-->
 
-    <ion-button expand="block" fill="clear" shape="round">
+    <ion-button expand="block" fill="clear" shape="round" (click)="login()">
       Register
     </ion-button>
   </div>
