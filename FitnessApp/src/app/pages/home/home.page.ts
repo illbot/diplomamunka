@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { SignUpPage } from '../sign-up/sign-up.page';
 
 @Component({
   selector: 'app-home',
@@ -9,6 +10,8 @@ export class HomePage {
   passwordVisibility:boolean = false;
   password: string = "";
   username: string = "";
+
+  signUpPage = SignUpPage;
 
   constructor() {}
 

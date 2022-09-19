@@ -13,37 +13,32 @@
         <ion-input type="text" placeholder="Username" [(ngModel)]="username"></ion-input>
       </ion-item>
   
-      <ion-item> <!--Password invisible-->
+      <ion-item *ngIf="!passwordVisibility"> <!--Password invisible-->
         <ion-icon slot="start" name="lock-closed-outline"></ion-icon>
-        <ion-input *ngIf="!passwordVisibility" type="password" placeholder="Password" [(ngModel)]="password"></ion-input>
-        <ion-input *ngIf="passwordVisibility" type="text" placeholder="Password" [(ngModel)]="password"></ion-input>
+        <ion-input type="password" placeholder="Password" [(ngModel)]="password"></ion-input>
 
         <ion-button *ngIf="!passwordVisibility" size="small" fill="clear" shape="round" (click)="togglePasswordVisibility()" class="ion-activatable">
           <ion-icon name="eye-outline"></ion-icon>
           <ion-ripple-effect type="bounded"></ion-ripple-effect>
         </ion-button>
 
-        <ion-button *ngIf="passwordVisibility" size="small" fill="clear" shape="round" (click)="togglePasswordVisibility()" class="ion-activatable">
-          <ion-icon name="eye-off-outline"></ion-icon>
-          <ion-ripple-effect type="bounded"></ion-ripple-effect>
-        </ion-button>
       </ion-item>
 
-      <!--ion-item *ngIf="passwordVisibility"> <!Password visible>
+      <ion-item *ngIf="passwordVisibility"> <!--Password visible-->
         <ion-icon slot="start" name="lock-closed-outline"></ion-icon>
         <ion-input type="text" placeholder="Password" [(ngModel)]="password"></ion-input>
         <ion-button size="small" fill="clear" shape="round" (click)="togglePasswordVisibility()" class="ion-activatable">
             <ion-icon name="eye-off-outline"></ion-icon>
             <ion-ripple-effect type="bounded"></ion-ripple-effect>
         </ion-button>
-      </ion-item-->
+      </ion-item>
 
     </ion-list>
   
     <ion-button expand="block" shape="round" (click)="login()">
       Login
     </ion-button>
-    
+
     <ion-button expand="block" fill="outline" shape="round" (click)="login()">
       <ion-icon slot="start" name="logo-google"></ion-icon>
       Google
@@ -56,6 +51,10 @@
 
     <ion-button expand="block" fill="clear" shape="round" (click)="login()">
       Register
+    </ion-button>
+
+    <ion-button href="sign-up" expand="block" fill="clear" shape="round">
+      Go to sign-up
     </ion-button>
   </div>
 </ion-content>
