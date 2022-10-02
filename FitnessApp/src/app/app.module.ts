@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 
@@ -6,17 +6,28 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-import { FirstComponent } from './pages/sign-up/first/first.component';
-import { SecondComponent } from './pages/sign-up/second/second.component';
+import { SignUpWrapperComponent } from './pages/sign-up/sign-up-wrapper/sign-up-wrapper.component';
+import { SecondComponent } from './pages/sign-up/slides/second/second.component';
+import { SwiperModule } from 'swiper/angular';
+import { FirstComponent } from './pages/sign-up/slides/first/first.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    FirstComponent,
-    SecondComponent
+    SignUpWrapperComponent,
+    SecondComponent,
+    FirstComponent
   ],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule],
+  imports: [
+    BrowserModule,
+    IonicModule.forRoot(),
+    AppRoutingModule,
+    SwiperModule
+  ],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],
+  schemas:[
+    CUSTOM_ELEMENTS_SCHEMA
+  ]
 })
 export class AppModule {}

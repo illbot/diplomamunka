@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-second',
+  selector: 'app-second-slide',
   templateUrl: './second.component.html',
   styleUrls: ['./second.component.scss'],
 })

@@ -24,3 +24,40 @@
 @import "~@ionic/angular/css/text-alignment.css";
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
+
+@import 'swiper/scss';
+@import 'swiper/scss/pagination';
+
+/*
+ion-button.gradient {
+    --background: linear-gradient(144deg,#AF40FF, #5B42F3 50%,#00DDEB);
+}
+
+ion-button.gradient-outline {
+    background-image: linear-gradient(144deg,#AF40FF, #5B42F3 50%,#00DDEB);
+}
+
+ion-button.gradient-outline:active,
+ion-button.gradient-outline:hover {
+    outline: 0;
+}
+
+ion-button.gradient-outline span {
+    background-color: rgb(5, 6, 45);
+    padding: 16px 24px;
+    border-radius: 6px;
+    width: 100%;
+    height: 100%;
+    transition: 300ms;
+  }
+
+ion-button.gradient-outline span {
+    background: none;
+}
+
+*/
+
+.bottom {
+    position: absolute;
+    bottom: 20px;
+}

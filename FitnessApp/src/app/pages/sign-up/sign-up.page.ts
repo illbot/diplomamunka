@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FirstComponent } from './first/first.component';
+import { SignUpWrapperComponent } from './sign-up-wrapper/sign-up-wrapper.component';
 
 @Component({
   selector: 'app-sign-up',
@@ -8,8 +8,8 @@ import { FirstComponent } from './first/first.component';
 })
 export class SignUpPage implements OnInit {
 
-  nextComponent = FirstComponent;
-  
+  nextComponent = SignUpWrapperComponent;
+
   constructor() { }
 
   ngOnInit() {
