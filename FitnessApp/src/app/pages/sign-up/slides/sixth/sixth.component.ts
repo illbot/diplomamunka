@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-sixth',
+  selector: 'app-sixth-slide',
   templateUrl: './sixth.component.html',
   styleUrls: ['./sixth.component.scss'],
 })

@@ -13,14 +13,28 @@ export class AuthService {
     this.auth=auth;
   }
 
-  loginEmailPassword(email, password){
-    signInWithEmailAndPassword(this.auth, email, password)
+  async loginEmailPassword(email, password){
+    let loggedIn = false
+    await signInWithEmailAndPassword(this.auth, email, password)
       .then((userCredential)=>{
-        console.log(userCredential); // TODO: navigate to new 
+        loggedIn = true;
       })
       .catch((error)=>{
-        console.log(error.message);
+        loggedIn = false;
       });
+    return loggedIn;
+  }
+
+  async isSignedIn(){
+    let signedIn = false 
+    await this.auth.onAuthStateChanged((user)=>{
+      if(user){
+        signedIn = true
+      } else {
+        signedIn = false
+      }
+    })
+    return signedIn;
   }
 
   async registerEmailPassword(email, password): Promise<any>{

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { SignUpPage } from '../sign-up/sign-up.page';
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth";
 import { AuthService } from 'src/app/services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -16,38 +17,28 @@ export class HomePage {
   signUpPage = SignUpPage;
 
   constructor(
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
   ) {}
 
   login(){
     console.log(this.password);
     console.log(this.username);
 
-    this.authService.loginEmailPassword(this.username,this.password)
-    
+    this.authService.loginEmailPassword(this.username,this.password).then((res)=>{
+      if(res) {
+        this.router.navigate(['/sign-up'])
+      } else {
+        console.log("hiba")
+      }
+    })
+
   }
 
   googleLogin(){
 
   }
 
-  register(){
-  // Itt navigalni kell majd uj helyre, és ott a lenti kód
-
-    /*
-    const auth=getAuth();
-    createUserWithEmailAndPassword(auth, this.username, this.password)
-      .then((userCredential)=>{
-        const user = userCredential.user;
-        console.log(user);
-        console.log(userCredential);
-      })
-      .catch((error)=>{
-        const errorMessage = error.message;
-        console.log(error.message);
-      });
-    */
-  }
 
   togglePasswordVisibility(){
     this.passwordVisibility = !this.passwordVisibility;

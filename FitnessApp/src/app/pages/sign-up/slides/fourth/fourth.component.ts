@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-fourth',
+  selector: 'app-fourth-slide',
   templateUrl: './fourth.component.html',
   styleUrls: ['./fourth.component.scss'],
 })

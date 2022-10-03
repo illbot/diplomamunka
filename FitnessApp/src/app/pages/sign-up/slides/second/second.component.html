@@ -1,36 +1,20 @@
-<div>
-  <ion-text color="primary">
-    <h1>Second works</h1>
-  </ion-text>
+<div class="ion-text-center">
+  <h1 color="primary">
+    What is your goal?
+  </h1>
 
-  <ion-grid>
-    <ion-row>
-      <ion-col class="ion-padding">
-        <div>padding</div>
-      </ion-col>
-      <ion-col class="ion-padding-top">
-        <div>padding-top</div>
-      </ion-col>
-      <ion-col class="ion-padding-start">
-        <div>padding-start</div>
-      </ion-col>
-      <ion-col class="ion-padding-end">
-        <div>padding-end</div>
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col class="ion-padding-bottom">
-        <div>padding-bottom</div>
-      </ion-col>
-      <ion-col class="ion-padding-vertical">
-        <div>padding-vertical</div>
-      </ion-col>
-      <ion-col class="ion-padding-horizontal">
-        <div>padding-horizontal</div>
-      </ion-col>
-      <ion-col class="ion-no-padding">
-        <div>no-padding</div>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+  <ion-list>
+    <ion-item>
+      <ion-item>
+        <ion-label>
+          Select your goal:
+        </ion-label>
+        <ion-select interface="action-sheet" placeholder="Select your goal">
+          <ion-select-option value="lose-weight">Lose weight</ion-select-option>
+          <ion-select-option value="maintain-weight">Maintain</ion-select-option>
+          <ion-select-option value="gain-weight">Gain weight</ion-select-option>
+        </ion-select>
+      </ion-item>
+    </ion-item>
+  </ion-list>
 </div>

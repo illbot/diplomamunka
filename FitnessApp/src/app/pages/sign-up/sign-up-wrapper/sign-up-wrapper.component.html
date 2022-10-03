@@ -13,7 +13,8 @@
 
   <lottie-player id="hello-animation" src="https://assets3.lottiefiles.com/packages/lf20_3vbOcw.json"  background="transparent"  speed="1"  style="width: 300px; height: 300px;"  loop autoplay></lottie-player>
   
-  <swiper 
+  <!--If user is NOT logged in, this  swiper will appear-->
+  <swiper *ngIf="!loggedIn"
     (config)="swiperConfig"
     [allowTouchMove]="false"
     #swiper
@@ -32,10 +33,58 @@
     </ng-template>
     
     <ng-template swiperSlide>
-      sadasdasdasdasd
+      <app-third-slide></app-third-slide>
     </ng-template>
+
+    <ng-template swiperSlide>
+      <app-fourth-slide></app-fourth-slide>
+    </ng-template>
+
+    <ng-template swiperSlide>
+      <app-fifth-slide></app-fifth-slide>
+    </ng-template>
+
+    <ng-template swiperSlide>
+      <app-sixth-slide></app-sixth-slide>
+    </ng-template>
+
+    <ng-template swiperSlide>
+      <app-seventh-slide></app-seventh-slide>
+    </ng-template>
+
   </swiper>
 
+  <!--If user is logged in, this  swiper will appear-->
+  <swiper *ngIf="loggedIn"
+    (config)="swiperConfig"
+    [allowTouchMove]="false"
+    #swiper
+  >
+    <ng-template swiperSlide>
+      <app-second-slide></app-second-slide>
+    </ng-template>
+    
+    <ng-template swiperSlide>
+      <app-third-slide></app-third-slide>
+    </ng-template>
+
+    <ng-template swiperSlide>
+      <app-fourth-slide></app-fourth-slide>
+    </ng-template>
+
+    <ng-template swiperSlide>
+      <app-fifth-slide></app-fifth-slide>
+    </ng-template>
+
+    <ng-template swiperSlide>
+      <app-sixth-slide></app-sixth-slide>
+    </ng-template>
+
+    <ng-template swiperSlide>
+      <app-seventh-slide></app-seventh-slide>
+    </ng-template>
+
+  </swiper>
 
 </ion-content>
 
