@@ -7,10 +7,19 @@ import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, Au
 export class AuthService {
   private auth;
   constructor() {
+    // TODO constructor
   }
 
   setAuth(auth:Auth){
     this.auth=auth;
+  }
+
+  async getUserData(){
+    let userdata;
+    await this.auth.onAuthStateChanged((user)=>{
+      userdata = user;
+    })
+    return userdata;
   }
 
   async loginEmailPassword(email, password){
@@ -21,6 +30,7 @@ export class AuthService {
       })
       .catch((error)=>{
         loggedIn = false;
+        console.log(error)
       });
     return loggedIn;
   }
@@ -55,5 +65,11 @@ export class AuthService {
       });
 
     return result;
+  }
+
+  async savePersonalGoals(personalGoals:any):Promise<boolean> {
+    // TODO: normálisan megcsinálni
+    console.log(personalGoals);
+    return true;
   }
 }

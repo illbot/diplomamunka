@@ -16,6 +16,13 @@ import { FourthComponent } from './pages/sign-up/slides/fourth/fourth.component'
 import { FifthComponent } from './pages/sign-up/slides/fifth/fifth.component';
 import { SixthComponent } from './pages/sign-up/slides/sixth/sixth.component';
 import { SeventhComponent } from './pages/sign-up/slides/seventh/seventh.component';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+//import { TranslateHttpLoader } from '@ngx-translate/http-loader'
+import {HttpClient} from '@angular/common/http/index';
+
+//export function HttpLoaderFactory(http: HttpClient){
+//  return new TranslateHttpLoader(http,"./assets/i18n",".json")
+//}
 
 @NgModule({
   declarations: [
@@ -32,6 +39,13 @@ import { SeventhComponent } from './pages/sign-up/slides/seventh/seventh.compone
   imports: [
     BrowserModule,
     IonicModule.forRoot(),
+    /*TranslateModule.forChild({
+      loader:{
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
+    }),*/
     AppRoutingModule,
     SwiperModule
   ],

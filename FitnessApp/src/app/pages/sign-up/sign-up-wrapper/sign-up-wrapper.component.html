@@ -9,7 +9,7 @@
 
 <ion-content>
 
-  <ion-progress-bar [value]="0"></ion-progress-bar>
+  <ion-progress-bar [value]="progress"></ion-progress-bar>
 
   <lottie-player id="hello-animation" src="https://assets3.lottiefiles.com/packages/lf20_3vbOcw.json"  background="transparent"  speed="1"  style="width: 300px; height: 300px;"  loop autoplay></lottie-player>
   
@@ -29,27 +29,39 @@
     </ng-template>
 
     <ng-template swiperSlide>
-      <app-second-slide></app-second-slide>
+      <app-second-slide 
+        [(goal)]="personalGoals.goal"
+      ></app-second-slide>
     </ng-template>
     
     <ng-template swiperSlide>
-      <app-third-slide></app-third-slide>
+      <app-third-slide
+        [(gender)]="personalGoals.gender"
+      ></app-third-slide>
     </ng-template>
 
     <ng-template swiperSlide>
-      <app-fourth-slide></app-fourth-slide>
+      <app-fourth-slide
+        [(birthDate)]="personalGoals.birthDate"
+      ></app-fourth-slide>
     </ng-template>
 
     <ng-template swiperSlide>
-      <app-fifth-slide></app-fifth-slide>
+      <app-fifth-slide
+      [(height)]="personalGoals.height"
+      ></app-fifth-slide>
     </ng-template>
 
     <ng-template swiperSlide>
-      <app-sixth-slide></app-sixth-slide>
+      <app-sixth-slide
+        [(weight)]="personalGoals.currentWeight"
+      ></app-sixth-slide>
     </ng-template>
 
     <ng-template swiperSlide>
-      <app-seventh-slide></app-seventh-slide>
+      <app-seventh-slide
+      [(weight)]="personalGoals.goalWeight"
+      ></app-seventh-slide>
     </ng-template>
 
   </swiper>
@@ -61,27 +73,39 @@
     #swiper
   >
     <ng-template swiperSlide>
-      <app-second-slide></app-second-slide>
+      <app-second-slide
+        [(goal)]="personalGoals.goal"
+      ></app-second-slide>
     </ng-template>
     
     <ng-template swiperSlide>
-      <app-third-slide></app-third-slide>
+      <app-third-slide
+        [(gender)]="personalGoals.gender"
+      ></app-third-slide>
     </ng-template>
 
     <ng-template swiperSlide>
-      <app-fourth-slide></app-fourth-slide>
+      <app-fourth-slide
+        [(birthDate)]="personalGoals.birthDate"
+      ></app-fourth-slide>
     </ng-template>
 
     <ng-template swiperSlide>
-      <app-fifth-slide></app-fifth-slide>
+      <app-fifth-slide
+        [(height)]="personalGoals.height"
+      ></app-fifth-slide>
     </ng-template>
 
     <ng-template swiperSlide>
-      <app-sixth-slide></app-sixth-slide>
+      <app-sixth-slide
+        [(weight)]="personalGoals.currentWeight"
+      ></app-sixth-slide>
     </ng-template>
 
     <ng-template swiperSlide>
-      <app-seventh-slide></app-seventh-slide>
+      <app-seventh-slide
+        [(weight)]="personalGoals.goalWeight"
+      ></app-seventh-slide>
     </ng-template>
 
   </swiper>

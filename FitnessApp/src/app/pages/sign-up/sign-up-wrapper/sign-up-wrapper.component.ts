@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import  SwiperCore, { Virtual } from 'swiper'
 import { SwiperComponent } from 'swiper/angular';
 import { LoadingController, ToastController } from '@ionic/angular';
@@ -15,6 +15,17 @@ interface UserData{
   emailAdress: string,
   password: string,
   passwordAgain: string
+}
+ 
+
+interface PersonalGoals{
+  userID: string,
+  goal: string,
+  gender: string,
+  birthDate: string,
+  currentWeight: number,
+  goalWeight: number,
+  height: number
 }
 
 @Component({
@@ -42,6 +53,18 @@ export class SignUpWrapperComponent implements OnInit {
     passwordAgain: ""
   };
 
+  personalGoals: PersonalGoals = {
+    userID: "",
+    goal: "",
+    gender: "",
+    birthDate: "",
+    currentWeight: 0,
+    goalWeight: 0,
+    height: 0
+  };
+
+  progress = 0;
+  PROGRESS_ADD = (100/6)/100;
   registerLoading:HTMLIonLoadingElement;
 
   constructor(
@@ -59,6 +82,8 @@ export class SignUpWrapperComponent implements OnInit {
           console.log(this.loggedIn)
         }
       );
+
+      this.progress += this.PROGRESS_ADD;
   }
 
   ngOnInit() {}
@@ -77,6 +102,7 @@ export class SignUpWrapperComponent implements OnInit {
           if(result.isSuccess){
             this.showSuccessToast("Sikeres regisztráció!")
             this.swiper.swiperRef.slideNext(100);
+            this.addToProgressBar();
           } else {
             if(result.message === "auth/email-already-in-use") 
               this.showErrorToast("Nem sikerült a regisztráció!");
@@ -85,18 +111,52 @@ export class SignUpWrapperComponent implements OnInit {
         })
       } else {
         this.swiper.swiperRef.slideNext(100); 
+        this.addToProgressBar();
       }
 
     } else if (this.swiper.swiperRef.isEnd) { // Last slide
-      this.router.navigate(['/main/home'])
+
+      this.savePersonalGoals().then((res)=>{
+        if(res) this.router.navigate(['/main/home']);
+      })
 
     } else {
       this.swiper.swiperRef.slideNext(100);
+      this.addToProgressBar();
     }
+  }
+
+  addToProgressBar(){
+    let progressNew = this.progress + this.PROGRESS_ADD;
+    let interval = setInterval(()=>{
+      if(
+          this.progress < (progressNew + 0.005) &&
+          this.progress > (progressNew - 0.005)
+        ){
+        clearInterval(interval);
+      } else {
+        this.progress += 0.01;
+      }
+    }, 25)
+  }
+
+  minusFromProgressBar(){
+    let progressNew = this.progress - this.PROGRESS_ADD;
+    let interval = setInterval(()=>{
+      if(
+        this.progress < (progressNew + 0.005) &&
+        this.progress > (progressNew - 0.005)
+      ){
+        clearInterval(interval);
+      } else {
+        this.progress -= 0.01;
+      }
+    }, 50)
   }
 
   slidePrev(){
     this.swiper.swiperRef.slidePrev(100);
+    this.minusFromProgressBar();
   }
 
   createAccount():Promise<any> {
@@ -131,5 +191,11 @@ export class SignUpWrapperComponent implements OnInit {
     })
 
     await toast.present();
+  }
+
+  async savePersonalGoals(){
+    let userData = await this.authService.getUserData();
+    this.personalGoals.userID = userData.uid;
+    return await this.authService.savePersonalGoals(this.personalGoals);
   }
 }

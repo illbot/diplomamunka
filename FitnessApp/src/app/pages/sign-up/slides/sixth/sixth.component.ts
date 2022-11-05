@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'app-sixth-slide',
@@ -7,8 +7,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SixthComponent implements OnInit {
 
+  @Input() weight:number;
+  @Output() weightChange = new EventEmitter<number>(); 
+
   constructor() { }
 
   ngOnInit() {}
 
+  handleChange(ev){
+    this.weightChange.emit(ev.target.value);
+  }
 }

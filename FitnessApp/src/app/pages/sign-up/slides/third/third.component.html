@@ -9,7 +9,11 @@
         <ion-label>
           Select your gender:
         </ion-label>
-        <ion-select interface="action-sheet" placeholder="Select gender">
+        <ion-select 
+          interface="action-sheet" 
+          placeholder="Select gender"
+          (ionChange)="handleChange($event)"
+        >
           <ion-select-option value="woman">Woman</ion-select-option>
           <ion-select-option value="man">Man</ion-select-option>
         </ion-select>

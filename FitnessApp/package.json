@@ -27,6 +27,8 @@
     "@capacitor/keyboard": "4.0.1",
     "@capacitor/status-bar": "4.0.1",
     "@ionic/angular": "^6.1.9",
+    "@ngx-translate/core": "^13.0.0",
+    "date-fns": "^2.29.3",
     "firebase": "^9.10.0",
     "ionicons": "^6.0.3",
     "rxjs": "~6.6.0",

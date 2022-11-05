@@ -4,6 +4,9 @@
   </h1>
 
   <ion-item>
-    <ion-datetime display-format="YYYY.MM.DD"></ion-datetime>
+    <ion-datetime 
+      display-format="YYYY.MM.DD"
+      (ionChange)="handleChange($event)"
+      ></ion-datetime>
   </ion-item>
 </div>

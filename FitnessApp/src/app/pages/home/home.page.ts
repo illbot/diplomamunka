@@ -22,9 +22,6 @@ export class HomePage {
   ) {}
 
   login(){
-    console.log(this.password);
-    console.log(this.username);
-
     this.authService.loginEmailPassword(this.username,this.password).then((res)=>{
       if(res) {
         this.router.navigate(['/sign-up'])
@@ -36,7 +33,7 @@ export class HomePage {
   }
 
   googleLogin(){
-
+    // TODO google login
   }
 
 

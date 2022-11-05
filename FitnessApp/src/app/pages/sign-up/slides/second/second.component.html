@@ -9,7 +9,11 @@
         <ion-label>
           Select your goal:
         </ion-label>
-        <ion-select interface="action-sheet" placeholder="Select your goal">
+        <ion-select 
+          interface="action-sheet" 
+          placeholder="Select your goal"
+          (ionChange)="handleChange($event)"  
+        >
           <ion-select-option value="lose-weight">Lose weight</ion-select-option>
           <ion-select-option value="maintain-weight">Maintain</ion-select-option>
           <ion-select-option value="gain-weight">Gain weight</ion-select-option>
