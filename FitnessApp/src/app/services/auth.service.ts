@@ -1,17 +1,23 @@
 import { Injectable } from '@angular/core';
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, Auth } from 'firebase/auth';
+import { doc, Firestore, setDoc } from 'firebase/firestore';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   private auth;
+  private db;
   constructor() {
     // TODO constructor
   }
 
   setAuth(auth:Auth){
     this.auth=auth;
+  }
+
+  setFirestore(firestore:Firestore){
+    this.db = firestore
   }
 
   async getUserData(){
@@ -54,9 +60,7 @@ export class AuthService {
     };
 
     await createUserWithEmailAndPassword(this.auth, email, password)
-      .then((userCredential)=>{
-        const user = userCredential.user;
-
+      .then(()=>{
         result.isSuccess = true;
       })
       .catch((error)=>{
@@ -68,8 +72,12 @@ export class AuthService {
   }
 
   async savePersonalGoals(personalGoals:any):Promise<boolean> {
-    // TODO: normálisan megcsinálni
-    console.log(personalGoals);
-    return true;
+    try{
+      await setDoc(doc(this.db, "personalGoals", personalGoals.userID), personalGoals);
+      return true;
+    } catch(error) {
+      console.log(error);
+      return false;
+    }
   }
 }

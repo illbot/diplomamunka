@@ -92,38 +92,48 @@ export class SignUpWrapperComponent implements OnInit {
     //console.log(this.swiper.swiperRef.realIndex); // get actual
     // TODO: change progressbar value
 
-    if(this.swiper.swiperRef.isBeginning){ // First register slide
+    if(this.swiper.swiperRef.isBeginning){ 
+      // First register slide
+
       if(!this.loggedIn){
         //TODO: check user inputs
-
-        this.registerLoading.present(); // open loader
-
-        this.createAccount().then((result)=>{ // handling registration response
-          if(result.isSuccess){
-            this.showSuccessToast("Sikeres regisztráció!")
-            this.swiper.swiperRef.slideNext(100);
-            this.addToProgressBar();
-          } else {
-            if(result.message === "auth/email-already-in-use") 
-              this.showErrorToast("Nem sikerült a regisztráció!");
-          }
-          this.registerLoading.dismiss(); // close loader
-        })
+        this.registerNewUser();
       } else {
         this.swiper.swiperRef.slideNext(100); 
         this.addToProgressBar();
       }
 
-    } else if (this.swiper.swiperRef.isEnd) { // Last slide
+    } else if (this.swiper.swiperRef.isEnd) { 
+      // Last slide
 
       this.savePersonalGoals().then((res)=>{
         if(res) this.router.navigate(['/main/home']);
+        else this.showErrorToast("Saving personal goals failed!")
       })
 
-    } else {
+    } else { 
+      // All the other slides
+
       this.swiper.swiperRef.slideNext(100);
       this.addToProgressBar();
+
     }
+  }
+
+  private registerNewUser() {
+    this.registerLoading.present(); // open loader
+
+    this.createAccount().then((result) => {
+      if (result.isSuccess) {
+        this.showSuccessToast("Sikeres regisztráció!");
+        this.swiper.swiperRef.slideNext(100);
+        this.addToProgressBar();
+      } else {
+        if (result.message === "auth/email-already-in-use")
+          this.showErrorToast("Nem sikerült a regisztráció!");
+      }
+      this.registerLoading.dismiss();
+    });
   }
 
   addToProgressBar(){
@@ -196,6 +206,6 @@ export class SignUpWrapperComponent implements OnInit {
   async savePersonalGoals(){
     let userData = await this.authService.getUserData();
     this.personalGoals.userID = userData.uid;
-    return await this.authService.savePersonalGoals(this.personalGoals);
+    return this.authService.savePersonalGoals(this.personalGoals);
   }
 }
