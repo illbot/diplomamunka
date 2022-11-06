@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { MainPage } from './main.page';
 import { MainTabComponent } from './tabs/main-tab/main-tab.component';
+import { ProfileComponent } from './tabs/profile/profile.component';
 import { RecipeTabComponent } from './tabs/recipe-tab/recipe-tab.component';
 
 const routes: Routes = [
@@ -13,6 +14,10 @@ const routes: Routes = [
       {
         path:'recipes',
         component: RecipeTabComponent
+      },
+      {
+        path:'profile',
+        component: ProfileComponent
       },
       {
         path:'home',

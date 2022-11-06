@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { PersonalGoalsService } from 'src/app/services/personal-goals.service';
+import { PersonalGoals } from 'src/app/shared/datatype/datatypes';
 
 @Component({
   selector: 'app-main-tab',
@@ -7,8 +9,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MainTabComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private personalGoalsService: PersonalGoalsService
+  ) { }
+  
+  personalGoals: PersonalGoals;
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.getPersonalGoals();
+  }
+
+  getPersonalGoals(){
+    this.personalGoalsService.getPersonalGoals().then((goals)=>{
+      this.personalGoals = goals;
+    })
+  }
 
 }

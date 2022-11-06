@@ -6,27 +6,11 @@ import { AuthService } from 'src/app/services/auth.service';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
+import { PersonalGoals, UserData } from 'src/app/shared/datatype/datatypes';
+import { ToastService } from 'src/app/services/toast.service';
 
 
 SwiperCore.use([Virtual])
-
-interface UserData{
-  name:string,
-  emailAdress: string,
-  password: string,
-  passwordAgain: string
-}
- 
-
-interface PersonalGoals{
-  userID: string,
-  goal: string,
-  gender: string,
-  birthDate: string,
-  currentWeight: number,
-  goalWeight: number,
-  height: number
-}
 
 @Component({
   selector: 'app-sign-up-wrapper',
@@ -68,7 +52,7 @@ export class SignUpWrapperComponent implements OnInit {
   registerLoading:HTMLIonLoadingElement;
 
   constructor(
-    private toastController: ToastController,
+    private toastController: ToastService,
     private authService: AuthService,
     private loadingCtrl: LoadingController,
     private router: Router
@@ -108,7 +92,7 @@ export class SignUpWrapperComponent implements OnInit {
 
       this.savePersonalGoals().then((res)=>{
         if(res) this.router.navigate(['/main/home']);
-        else this.showErrorToast("Saving personal goals failed!")
+        else this.toastController.showErrorToast("Saving personal goals failed!")
       })
 
     } else { 
@@ -125,12 +109,12 @@ export class SignUpWrapperComponent implements OnInit {
 
     this.createAccount().then((result) => {
       if (result.isSuccess) {
-        this.showSuccessToast("Sikeres regisztráció!");
+        this.toastController.showSuccessToast("Sikeres regisztráció!");
         this.swiper.swiperRef.slideNext(100);
         this.addToProgressBar();
       } else {
         if (result.message === "auth/email-already-in-use")
-          this.showErrorToast("Nem sikerült a regisztráció!");
+          this.toastController.showErrorToast("Nem sikerült a regisztráció!");
       }
       this.registerLoading.dismiss();
     });
@@ -177,30 +161,6 @@ export class SignUpWrapperComponent implements OnInit {
 
   isSignedIn(): Promise<boolean>{
     return this.authService.isSignedIn()
-  }
-
-  async showErrorToast(message:string){
-    const toast = await this.toastController.create({
-      message: message,
-      duration:3000,
-      position:'top',
-      icon:'alert-circle-outline',
-      color: 'danger'
-    })
-
-    await toast.present();
-  }
-
-  async showSuccessToast(message:string) {
-    const toast = await this.toastController.create({
-      message: message,
-      duration:3000,
-      position:'top',
-      icon:'sparkles-outline',
-      color: 'success'
-    })
-
-    await toast.present();
   }
 
   async savePersonalGoals(){
