@@ -10,6 +10,7 @@ import { MainPage } from './main.page';
 import { ProfileComponent } from './tabs/profile/profile.component';
 import { MainTabComponent } from './tabs/main-tab/main-tab.component';
 import { RecipeTabComponent } from './tabs/recipe-tab/recipe-tab.component';
+import { AddRecipeComponent } from './tabs/recipe-tab/add-recipe/add-recipe.component';
 
 @NgModule({
   imports: [
@@ -24,6 +25,7 @@ import { RecipeTabComponent } from './tabs/recipe-tab/recipe-tab.component';
     ProfileComponent,
     MainTabComponent,
     RecipeTabComponent,
+    AddRecipeComponent
   ],
   schemas:[
     CUSTOM_ELEMENTS_SCHEMA

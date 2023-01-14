@@ -21,24 +21,35 @@ export class HomePage {
     private authService: AuthService,
     private router: Router,
     private personalGoalsService: PersonalGoalsService,
-  ) {}
+  ) {
+    // NOT WORKING
+    this.authService.isSignedIn().then((isSignedIn)=>{
+      if(isSignedIn){
+        this.navigateToMain(); 
+      }
+    })
+  }
 
   login(){
     this.authService.loginEmailPassword(this.username,this.password).then((res)=>{
       if(res) {
-        this.personalGoalsService.hasPersonalGoals().then((hasGoals)=>{
-          if(hasGoals){
-            this.router.navigate(['/main/home']);
-          } else {
-            this.router.navigate(['/sign-up'])
-          }
-        })
+        this.navigateToMain();
       } else {
         console.log("hiba")
       }
     })
-
   }
+
+  navigateToMain(){
+    this.personalGoalsService.hasPersonalGoals().then((hasGoals)=>{
+      if(hasGoals){
+        this.router.navigate(['/main/home']);
+      } else {
+        this.router.navigate(['/sign-up'])
+      }
+    })
+  }
+
 
   googleLogin(){
     // TODO google login

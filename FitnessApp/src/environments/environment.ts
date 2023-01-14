@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   firebaseConfig : {
-    apiKey: process.env["API_KEY"],
+    apiKey: 'AIzaSyC92mj7EidUBG2wsU_EQtjxofqARIfquRo',
     authDomain: "fitnessapp-7a114.firebaseapp.com",
     projectId: "fitnessapp-7a114",
     storageBucket: "fitnessapp-7a114.appspot.com",

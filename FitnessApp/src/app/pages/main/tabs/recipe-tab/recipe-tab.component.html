@@ -1,3 +1,43 @@
-<p>
-  recipe-tab works!
-</p>
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Recipes</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-card *ngFor="let element of recipeList">
+    <img alt="Picture of a recipe" [src]="element.pictureUrl" />
+    <ion-card-header>
+      <ion-card-title>{{element.name}}</ion-card-title>
+      <ion-card-subtitle>{{element.category}}</ion-card-subtitle>
+    </ion-card-header>
+
+    <ion-card-content>
+       <p>Calories: </p>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more recipes...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button>
+      <ion-icon name="fast-food-outline"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-list side="top">
+      <ion-fab-button (click)="openModal()">
+        <ion-icon name="add"></ion-icon>
+      </ion-fab-button>
+    </ion-fab-list>
+  </ion-fab>
+
+</ion-content>
+
+
+<!--ion-modal trigger="add-new-recipe" (willDismiss)="onWillDismiss($event)">
+  <p>asd</p>
+  <app-add-recipe></app-add-recipe>
+</ion-modal-->

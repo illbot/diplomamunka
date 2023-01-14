@@ -1,0 +1,100 @@
+
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="cancel()">Cancel</ion-button>
+    </ion-buttons>
+    <ion-title>Add new recipe</ion-title>
+    <!--ion-buttons slot="end">
+      <ion-button (click)="confirm()" [strong]="true">Confirm</ion-button>
+    </ion-buttons-->
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <h3>
+    Recipe
+  </h3>
+
+  <ion-item>
+    <ion-input type="text" placeholder="Recipe name..." [(ngModel)]="newRecipe.name"></ion-input>
+  </ion-item>
+
+  <div class="horizontal-scroll">
+    Category:
+    <ion-chip
+      *ngFor="let chip of chipData"
+      color="primary"
+      [outline]="chip !== newRecipe.category"
+      (click)="newRecipe.category = chip">
+      <ion-label>{{chip}}</ion-label>
+    </ion-chip>
+  </div>
+
+  <!--Picture container-->
+  <div>
+      <img *ngIf="selectedImageUrl" [src]="selectedImageUrl" alt="Image of food">
+
+      <ion-fab-button *ngIf="!selectedImageUrl"
+      class="ion-float-center"
+      style="margin-left: auto; margin-right: auto;"
+      (click)="selectAndUploadImage()">
+        <ion-icon name="camera-outline"></ion-icon>
+      </ion-fab-button>
+      <ion-fab-button *ngIf="selectedImageUrl"
+      color="danger"
+      class="ion-float-center"
+      style="margin-left: auto; margin-right: auto;"
+      (click)="deleteImage()">
+        <ion-icon name="close-outline"></ion-icon>
+      </ion-fab-button>
+  </div>
+
+  <!--Ingredients container-->
+  <div>
+    <h3>
+      Ingredients
+      </h3>
+
+    <ion-item *ngFor="let ingredient of newRecipe.ingredientList">
+      <ion-button (click)="deleteIngredientInput(ingredient.localId)"
+      fill="empty">
+        <ion-icon slot="icon-only" name="close-outline" color="danger"></ion-icon>
+      </ion-button>
+      <ion-input type="text" placeholder="Awesome Input" [(ngModel)]="ingredient.name">
+      </ion-input>
+    </ion-item>
+
+    <br>
+
+    <ion-fab-button
+      class="ion-float-center"
+      style="margin-left: auto; margin-right: auto;"
+      (click)="addIngredientInput()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </div>
+
+  <!--How to make container-->
+  <div>
+    <h3>
+      How to make
+    </h3>
+
+    <ion-item>
+      <ion-textarea placeholder="Stir up the eggs..." [autoGrow]="true" [(ngModel)]="newRecipe.howToMake"></ion-textarea>
+    </ion-item>
+
+  </div>
+
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-button (click)="onUploadRecipe()" expand="block">
+      <ion-icon slot="start" name="cloud-upload-outline"></ion-icon>
+      Upload recipe
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>
