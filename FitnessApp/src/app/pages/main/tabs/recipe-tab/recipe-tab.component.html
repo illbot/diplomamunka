@@ -6,17 +6,9 @@
 
 <ion-content>
 
-  <ion-card *ngFor="let element of recipeList">
-    <img alt="Picture of a recipe" [src]="element.pictureUrl" />
-    <ion-card-header>
-      <ion-card-title>{{element.name}}</ion-card-title>
-      <ion-card-subtitle>{{element.category}}</ion-card-subtitle>
-    </ion-card-header>
-
-    <ion-card-content>
-       <p>Calories: </p>
-    </ion-card-content>
-  </ion-card>
+  <app-recipe-card
+  *ngFor="let element of recipeList"
+  [recipe]="element"></app-recipe-card>
 
   <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">
     <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more recipes...">

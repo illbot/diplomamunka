@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { RecipeService } from 'src/app/services/recipe.service';
+import { Recipe } from 'src/app/shared/datatype/datatypes';
 
 @Component({
   selector: 'app-recipe-card',
@@ -7,8 +9,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RecipeCardComponent implements OnInit {
 
-  constructor() { }
+  @Input('recipe') recipe: Recipe;
+  imageUrl:string;
 
-  ngOnInit() {}
+  constructor(
+    private recipeService: RecipeService,
+  ) { }
+
+  async ngOnInit() {
+    this.imageUrl = await this.recipeService.getImageUrlFromStorage(this.recipe.pictureUrl)
+  }
 
 }

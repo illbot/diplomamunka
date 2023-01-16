@@ -47,10 +47,7 @@ export class RecipeTabComponent implements OnInit {
 
   onIonInfinite (ev){
     this.recipeService.getRecipes().then(async result=>{
-      for(let recipe of result){
-        recipe.pictureUrl = await this.recipeService.getImageUrlFromStorage(recipe.pictureUrl);
-        this.recipeList.push(recipe);
-      }
+      result.forEach(recipe => this.recipeList.push(recipe));
       (ev as InfiniteScrollCustomEvent).target.complete();
     });
   }
