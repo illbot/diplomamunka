@@ -57,27 +57,57 @@
       Ingredients
     </h3>
 
-    <ion-item *ngFor="let ingredient of newRecipe.ingredientList">
-      <ion-button (click)="deleteIngredientInput(ingredient.localId)"
+    <!--ion-item *ngFor="let ingredient of newRecipe.ingredientList">
+      <!--ion-button (click)="deleteIngredientInput(ingredient.localId)"
       fill="empty">
         <ion-icon slot="icon-only" name="close-outline" color="danger"></ion-icon>
       </ion-button>
-      <ion-input type="text" placeholder="Awesome Input" [(ngModel)]="ingredient.name">
-      </ion-input>
-    </ion-item>
 
-    <ion-item>
-      <input type="text">
-      <select>
-        <option value="asd">asd</option>
-      </select>
-    </ion-item>
-    <ion-item>
-      <ion-select multiple="true" placeholder="Select Pizza">
-        <ion-select-option value="peperoni"><input type="text"></ion-select-option>
-        <ion-select-option value="hawaii">Hawaii</ion-select-option>
-      </ion-select>
-    </ion-item>
+      <ion-input
+        type="text"
+        placeholder="Awesome Input"
+        [(ngModel)]="ingredient.name">
+      </ion-input>
+
+      <!--input type="text" [matAutocomplete]="auto" placeholder="Ingredient>
+
+      <mat-autocomplete #auto="matAutocomplete">
+        <mat-option *ngFor="let option of options" [value]="option">
+          {{option}}
+        </mat-option>
+      </mat-autocomplete>
+
+      <!--mat-form-field>
+        <mat-label>Ingredient</mat-label>
+        <input type="text" matInput [matAutocomplete]="auto">
+      </mat-form-field>
+
+    </ion-item-->
+
+    <div *ngFor="let ingredient of newRecipe.ingredientList">
+      <mat-form-field style="width: 85%;" md-light>
+        <mat-label>Ingredient</mat-label>
+        <input type="text" matInput [matAutocomplete]="auto">
+        <mat-autocomplete #auto="matAutocomplete" [displayWith]="getOptionText">
+          <mat-option *ngFor="let option of options" [value]="option">
+            {{option.name}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+
+      <button mat-icon-button style="float: right;">
+        <mat-icon color="warn" fontIcon="delete"></mat-icon>
+      </button>
+    </div>
+
+
+    <!--input type="text" [matAutocomplete]="auto">
+    <mat-autocomplete #auto="matAutocomplete">
+      <mat-option *ngFor="let option of options" [value]="option">
+        {{option}}
+      </mat-option>
+    </mat-autocomplete-->
+
 
     <br>
 

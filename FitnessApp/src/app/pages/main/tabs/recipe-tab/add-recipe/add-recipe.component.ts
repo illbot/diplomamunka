@@ -6,6 +6,8 @@ import { RecipeService } from 'src/app/services/recipe.service';
 import { ToastService } from 'src/app/services/toast.service';
 import { Recipe, RecipeIngredients } from 'src/app/shared/datatype/datatypes';
 import { uniqueID } from 'src/app/shared/uniqueId';
+import {FormControl} from '@angular/forms';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
 
 @Component({
   selector: 'app-add-recipe',
@@ -20,7 +22,16 @@ export class AddRecipeComponent implements OnInit, AfterViewInit {
   userId;
   ingredientList: Map<string,RecipeIngredients>
   loadingElement:HTMLIonLoadingElement;
+  options: any = [
+    {name:'one', value: 1},
+    {name:'two', value: 2},
+    {name:'three', value: 2}
+  ];
   //testUrl: string
+
+  getOptionText(option){
+    return option.name
+  }
 
   constructor(
     private authService: AuthService,

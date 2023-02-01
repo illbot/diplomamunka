@@ -20,6 +20,7 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 //import { TranslateHttpLoader } from '@ngx-translate/http-loader'
 import {HttpClient} from '@angular/common/http/index';
 import { AddRecipeComponent } from './pages/main/tabs/recipe-tab/add-recipe/add-recipe.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 //export function HttpLoaderFactory(http: HttpClient){
 //  return new TranslateHttpLoader(http,"./assets/i18n",".json")
@@ -48,7 +49,8 @@ import { AddRecipeComponent } from './pages/main/tabs/recipe-tab/add-recipe/add-
       }
     }),*/
     AppRoutingModule,
-    SwiperModule
+    SwiperModule,
+    BrowserAnimationsModule
   ],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],

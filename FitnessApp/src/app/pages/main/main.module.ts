@@ -14,7 +14,10 @@ import { AddRecipeComponent } from './tabs/recipe-tab/add-recipe/add-recipe.comp
 import { RecipeCardComponent } from './tabs/recipe-tab/recipe-card/recipe-card.component';
 import { IngredientsTabComponent } from './tabs/ingredients-tab/ingredients-tab.component';
 import { AddIngredientComponent } from './tabs/ingredients-tab/add-ingredient/add-ingredient.component';
-
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {MatInputModule} from '@angular/material/input';
+import {MatIconModule} from '@angular/material/icon';
+import {MatButtonModule} from '@angular/material/button';
 
 @NgModule({
   imports: [
@@ -22,7 +25,10 @@ import { AddIngredientComponent } from './tabs/ingredients-tab/add-ingredient/ad
     FormsModule,
     IonicModule,
     MainPageRoutingModule,
-
+    MatAutocompleteModule,
+    MatInputModule,
+    MatIconModule,
+    MatButtonModule,
   ],
   declarations: [
     MainPage,
@@ -33,6 +39,7 @@ import { AddIngredientComponent } from './tabs/ingredients-tab/add-ingredient/ad
     RecipeCardComponent,
     IngredientsTabComponent,
     AddIngredientComponent,
+
   ],
   schemas:[
     CUSTOM_ELEMENTS_SCHEMA
