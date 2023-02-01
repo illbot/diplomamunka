@@ -17,13 +17,14 @@ export interface PersonalGoals{
 }
 
 export interface RecipeIngredients {
-  localId: string,
+  localId?: string,
   name: string,
   calories: number,
   carbohydrate: number,
   protein: number,
   serving_size:number,
   total_fat:number,
+  searchField?:string[]
   unit?: string
 }
 

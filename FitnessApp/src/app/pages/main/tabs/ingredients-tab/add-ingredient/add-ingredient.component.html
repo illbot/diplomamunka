@@ -1,0 +1,85 @@
+
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="cancel()">Cancel</ion-button>
+    </ion-buttons>
+    <ion-title>Add new ingredient</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <h3>
+    Ingredient
+  </h3>
+
+  <ion-item>
+    <ion-input type="text" placeholder="Recipe name..." [(ngModel)]="ingredient.name"></ion-input>
+  </ion-item>
+
+  <div>
+    <h3>
+      Serving size
+    </h3>
+    <ion-grid fixed>
+      <ion-row>
+        <ion-col size="6">
+          <ion-item>
+            <ion-input type="number" placeholder="100" [(ngModel)]="ingredient.serving_size"></ion-input>
+          </ion-item>
+
+        </ion-col>
+        <ion-col size="6">
+
+            <ion-segment value="g" (ionChange)="segmentChanged($event)">
+              <ion-segment-button value="g">
+                <ion-label>g</ion-label>
+              </ion-segment-button>
+              <ion-segment-button value="ml">
+                <ion-label>ml</ion-label>
+              </ion-segment-button>
+            </ion-segment>
+
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+  </div>
+
+  <div>
+    <h3>
+      Macros:
+    </h3>
+    <ion-item>
+      <ion-input type="number" placeholder="Total fat" [(ngModel)]="ingredient.total_fat"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input type="number" placeholder="Protein" [(ngModel)]="ingredient.protein"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input type="number" placeholder="Carbohydrate" [(ngModel)]="ingredient.carbohydrate"></ion-input>
+    </ion-item>
+  </div>
+
+
+  <div>
+    <h3>
+      Calories
+    </h3>
+    <ion-item>
+      <ion-input type="number" placeholder="Example 600" [(ngModel)]="ingredient.calories"></ion-input>
+      kcal
+    </ion-item>
+  </div>
+
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-button (click)="onUploadIngredient()" expand="block">
+      <ion-icon slot="start" name="cloud-upload-outline"></ion-icon>
+      Upload Ingredient
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>

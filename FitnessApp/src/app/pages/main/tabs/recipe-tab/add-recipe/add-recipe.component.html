@@ -55,7 +55,7 @@
   <div>
     <h3>
       Ingredients
-      </h3>
+    </h3>
 
     <ion-item *ngFor="let ingredient of newRecipe.ingredientList">
       <ion-button (click)="deleteIngredientInput(ingredient.localId)"
@@ -64,6 +64,19 @@
       </ion-button>
       <ion-input type="text" placeholder="Awesome Input" [(ngModel)]="ingredient.name">
       </ion-input>
+    </ion-item>
+
+    <ion-item>
+      <input type="text">
+      <select>
+        <option value="asd">asd</option>
+      </select>
+    </ion-item>
+    <ion-item>
+      <ion-select multiple="true" placeholder="Select Pizza">
+        <ion-select-option value="peperoni"><input type="text"></ion-select-option>
+        <ion-select-option value="hawaii">Hawaii</ion-select-option>
+      </ion-select>
     </ion-item>
 
     <br>

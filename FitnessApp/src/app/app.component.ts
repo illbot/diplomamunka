@@ -9,6 +9,7 @@ import { getFirestore } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
 import { PersonalGoalsService } from './services/personal-goals.service';
 import { RecipeService } from './services/recipe.service';
+import { IngredientService } from './services/ingredient.service';
 
 @Component({
   selector: 'app-root',
@@ -22,7 +23,8 @@ export class AppComponent {
   constructor(
     private authService: AuthService,
     private pGoalsService: PersonalGoalsService,
-    private recipeService: RecipeService
+    private recipeService: RecipeService,
+    private ingredientService: IngredientService
     //private translate: TranslateService
   ) {
     this.initFirebase();
@@ -39,6 +41,7 @@ export class AppComponent {
     this.authService.setFirestore(firestore);
     this.pGoalsService.setFirestore(firestore);
     this.recipeService.setFirestore(firestore);
+    this.ingredientService.setFirestore(firestore);
     this.recipeService.setStorage(storage);
   }
 

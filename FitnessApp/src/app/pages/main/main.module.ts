@@ -12,6 +12,9 @@ import { MainTabComponent } from './tabs/main-tab/main-tab.component';
 import { RecipeTabComponent } from './tabs/recipe-tab/recipe-tab.component';
 import { AddRecipeComponent } from './tabs/recipe-tab/add-recipe/add-recipe.component';
 import { RecipeCardComponent } from './tabs/recipe-tab/recipe-card/recipe-card.component';
+import { IngredientsTabComponent } from './tabs/ingredients-tab/ingredients-tab.component';
+import { AddIngredientComponent } from './tabs/ingredients-tab/add-ingredient/add-ingredient.component';
+
 
 @NgModule({
   imports: [
@@ -27,7 +30,9 @@ import { RecipeCardComponent } from './tabs/recipe-tab/recipe-card/recipe-card.c
     MainTabComponent,
     RecipeTabComponent,
     AddRecipeComponent,
-    RecipeCardComponent
+    RecipeCardComponent,
+    IngredientsTabComponent,
+    AddIngredientComponent,
   ],
   schemas:[
     CUSTOM_ELEMENTS_SCHEMA
