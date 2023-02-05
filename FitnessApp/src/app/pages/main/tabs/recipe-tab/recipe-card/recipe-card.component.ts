@@ -20,4 +20,7 @@ export class RecipeCardComponent implements OnInit {
     this.imageUrl = await this.recipeService.getImageUrlFromStorage(this.recipe.pictureUrl)
   }
 
+  onCardClick(){
+    console.log(this.recipe)
+  }
 }

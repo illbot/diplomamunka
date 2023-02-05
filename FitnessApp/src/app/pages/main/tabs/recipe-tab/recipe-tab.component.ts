@@ -7,6 +7,7 @@ import { Recipe, RecipeIngredients } from 'src/app/shared/datatype/datatypes';
 import { uniqueID } from 'src/app/shared/uniqueId';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera'
 import { AddRecipeComponent } from './add-recipe/add-recipe.component';
+import { ActivatedRoute, Router } from '@angular/router';
 
 interface LocalFile {
   name: string;
@@ -26,7 +27,9 @@ export class RecipeTabComponent implements OnInit {
   constructor(
     private recipeService: RecipeService,
     private authService: AuthService,
-    private modalCtrl: ModalController
+    private modalCtrl: ModalController,
+    private router: Router,
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit() {
@@ -50,6 +53,15 @@ export class RecipeTabComponent implements OnInit {
       result.forEach(recipe => this.recipeList.push(recipe));
       (ev as InfiniteScrollCustomEvent).target.complete();
     });
+  }
+
+  navigateToChild(recipe){
+    this.router.navigate(['details'], {
+      relativeTo: this.route,
+      state: {
+        recipe: recipe
+      }
+    })
   }
 
   async openModal(){

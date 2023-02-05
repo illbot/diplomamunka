@@ -5,17 +5,14 @@
       <ion-button (click)="cancel()">Cancel</ion-button>
     </ion-buttons>
     <ion-title>Add new recipe</ion-title>
-    <!--ion-buttons slot="end">
-      <ion-button (click)="confirm()" [strong]="true">Confirm</ion-button>
-    </ion-buttons-->
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
 
-  <h3>
+  <h2>
     Recipe
-  </h3>
+  </h2>
 
   <ion-item>
     <ion-input type="text" placeholder="Recipe name..." [(ngModel)]="newRecipe.name"></ion-input>
@@ -53,61 +50,36 @@
 
   <!--Ingredients container-->
   <div>
-    <h3>
+    <h2>
       Ingredients
-    </h3>
+    </h2>
 
-    <!--ion-item *ngFor="let ingredient of newRecipe.ingredientList">
-      <!--ion-button (click)="deleteIngredientInput(ingredient.localId)"
-      fill="empty">
-        <ion-icon slot="icon-only" name="close-outline" color="danger"></ion-icon>
-      </ion-button>
-
-      <ion-input
-        type="text"
-        placeholder="Awesome Input"
-        [(ngModel)]="ingredient.name">
-      </ion-input>
-
-      <!--input type="text" [matAutocomplete]="auto" placeholder="Ingredient>
-
-      <mat-autocomplete #auto="matAutocomplete">
-        <mat-option *ngFor="let option of options" [value]="option">
-          {{option}}
-        </mat-option>
-      </mat-autocomplete>
-
-      <!--mat-form-field>
-        <mat-label>Ingredient</mat-label>
-        <input type="text" matInput [matAutocomplete]="auto">
-      </mat-form-field>
-
-    </ion-item-->
-
-    <div *ngFor="let ingredient of newRecipe.ingredientList">
-      <mat-form-field style="width: 85%;" md-light>
-        <mat-label>Ingredient</mat-label>
-        <input type="text" matInput [matAutocomplete]="auto">
-        <mat-autocomplete #auto="matAutocomplete" [displayWith]="getOptionText">
-          <mat-option *ngFor="let option of options" [value]="option">
-            {{option.name}}
-          </mat-option>
-        </mat-autocomplete>
-      </mat-form-field>
-
-      <button mat-icon-button style="float: right;">
-        <mat-icon color="warn" fontIcon="delete"></mat-icon>
-      </button>
-    </div>
-
-
-    <!--input type="text" [matAutocomplete]="auto">
-    <mat-autocomplete #auto="matAutocomplete">
-      <mat-option *ngFor="let option of options" [value]="option">
-        {{option}}
-      </mat-option>
-    </mat-autocomplete-->
-
+    <ion-grid fixed>
+      <ion-row *ngFor="let ingredient of newRecipe.ingredientList">
+        <ion-col size="8">
+          <mat-form-field style="width: 100%;" md-light>
+            <mat-label>Ingredient</mat-label>
+            <input type="text" matInput [matAutocomplete]="auto" (keyup)="getIngredienSuggestions($event)">
+            <mat-autocomplete #auto="matAutocomplete" [displayWith]="getOptionText" (optionSelected)="selectOption($event, ingredient)">
+              <mat-option *ngFor="let option of autocompleteSuggestions" [value]="option">
+                {{option.name}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </ion-col>
+        <ion-col size="3">
+          <mat-form-field style="width: 100%;">
+            <input type="number" matInput placeholder="0" [(ngModel)]="ingredient.serving_size" (change)="onServingSizeChange()">
+            <span matTextSuffix style="color: black;" >{{ingredient.unit}}</span>
+          </mat-form-field>
+        </ion-col>
+        <ion-col size="1">
+          <button mat-icon-button (click)="deleteIngredientInput(ingredient.localId)">
+            <mat-icon color="warn" fontIcon="delete"></mat-icon>
+          </button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
 
     <br>
 
@@ -117,20 +89,38 @@
       (click)="addIngredientInput()">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
+
+    Calories: {{calories | number: '1.0-2'}} kcal<br>
+    protein: {{protein | number: '1.0-2'}} g<br>
+    Carbohydrate:{{carbohydrates | number: '1.0-2'}} g<br>
+    Fat: {{total_fat | number: '1.0-2'}} g<br>
   </div>
 
   <!--How to make container-->
   <div>
-    <h3>
+    <h2>
       How to make
-    </h3>
+    </h2>
 
     <ion-item>
       <ion-textarea placeholder="Stir up the eggs..." [autoGrow]="true" [(ngModel)]="newRecipe.howToMake"></ion-textarea>
     </ion-item>
 
   </div>
-
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
 </ion-content>
 
 <ion-footer>

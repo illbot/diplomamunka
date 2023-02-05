@@ -7,7 +7,7 @@ import { ToastService } from 'src/app/services/toast.service';
 import { Recipe, RecipeIngredients } from 'src/app/shared/datatype/datatypes';
 import { uniqueID } from 'src/app/shared/uniqueId';
 import {FormControl} from '@angular/forms';
-import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {MatAutocompleteModule, MatAutocompleteSelectedEvent} from '@angular/material/autocomplete';
 
 @Component({
   selector: 'app-add-recipe',
@@ -20,17 +20,61 @@ export class AddRecipeComponent implements OnInit, AfterViewInit {
   chipData = ['Breakfast', 'Lunch', 'Dinner', 'Snack', 'Drink']
   newRecipe: Recipe;
   userId;
-  ingredientList: Map<string,RecipeIngredients>
+  ingredientList: Map<string,RecipeIngredients>;
+  autocompleteSuggestions:any = [];
   loadingElement:HTMLIonLoadingElement;
-  options: any = [
-    {name:'one', value: 1},
-    {name:'two', value: 2},
-    {name:'three', value: 2}
-  ];
-  //testUrl: string
+
+  calories: number = 0;
+  total_fat: number = 0;
+  protein: number = 0;
+  carbohydrates:number = 0;
+
+  selectOption(e: MatAutocompleteSelectedEvent, ingredient){
+    // I need some magic here!!!...
+    let item = e.option.value;
+
+    // Set actual ingredient data with selected item from suggestions
+    ingredient.name = item.name;
+    ingredient.calories = item.calories;
+    ingredient.protein = item.protein;
+    ingredient.carbohydrate = item.carbohydrate;
+    ingredient.total_fat = item.total_fat;
+    ingredient.serving_size = item.serving_size;
+    ingredient.unit = item.unit;
+    ingredient.serving_size = item.serving_size;
+
+    console.log(this.newRecipe.ingredientList);
+
+    //After selected, delete the suggestions
+    this.autocompleteSuggestions = [];
+  }
 
   getOptionText(option){
     return option.name
+  }
+
+  getIngredienSuggestions(e){
+    let searchString = e.target.value.toLowerCase();
+
+    if(searchString.length>=3){
+      this.recipeService.filterIngredientsFromDb(searchString).then(res=>{
+        this.autocompleteSuggestions=res;
+      })
+    }
+  }
+
+  onServingSizeChange(){
+    this.calories = 0;
+    this.protein = 0;
+    this.carbohydrates = 0;
+    this.total_fat = 0;
+
+    this.newRecipe.ingredientList.forEach(ingredient => {
+      this.calories += ingredient.serving_size * ingredient.calories;
+      this.protein += ingredient.serving_size * ingredient.protein;
+      this.carbohydrates += ingredient.serving_size * ingredient.carbohydrate;
+      this.total_fat += ingredient.serving_size * ingredient.total_fat;
+    });
   }
 
   constructor(
@@ -47,22 +91,6 @@ export class AddRecipeComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.newRecipe = this.initializeNewRecipe();
-    /*this.recipeService.getAllIngredients().then((list)=>{
-      if(list) {
-        this.ingredientList = <Map<string,RecipeIngredients>>list;
-        console.log(this.ingredientList);
-      }
-      else console.log("Hiba ingredients lekérdezésnél")
-    })*/
-
-    // TEST
-    this.recipeService.filterIngredientsFromDb("SUBWAY").then((list)=>{
-      if(list) {
-        this.ingredientList = <Map<string,RecipeIngredients>>list;
-        console.log(this.ingredientList);
-      }
-      else console.log("Hiba ingredients lekérdezésnél")
-    })
   }
 
   async ngAfterViewInit(): Promise<void> {
@@ -119,6 +147,7 @@ export class AddRecipeComponent implements OnInit, AfterViewInit {
 
   deleteIngredientInput(localId: string){
     this.newRecipe.ingredientList = this.newRecipe.ingredientList.filter((ingr)=>ingr.localId !== localId);
+    this.onServingSizeChange();
   }
 
   addIngredientInput(){
@@ -152,6 +181,10 @@ export class AddRecipeComponent implements OnInit, AfterViewInit {
       return;
     }
 
+    this.newRecipe.calories = this.calories;
+    this.newRecipe.total_fat = this.total_fat;
+    this.newRecipe.carbohydrates = this.carbohydrates;
+    this.newRecipe.protein = this.protein;
     // Upload actual data
     const res = await this.uploadActualData();
     this.loadingElement.dismiss();

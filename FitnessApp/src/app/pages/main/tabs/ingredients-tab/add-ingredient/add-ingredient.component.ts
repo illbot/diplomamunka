@@ -91,7 +91,7 @@ export class AddIngredientComponent implements OnInit {
 
   createSearchfieldForFirebase(){
     this.ingredient.searchField = Array<string>();
-    let nameArray = this.ingredient.name.trim().split(" ");
+    let nameArray = this.ingredient.name.toLowerCase().trim().split(" ");
     for(let name of nameArray){
       let toSearchField = "";
       for(let letter of name){

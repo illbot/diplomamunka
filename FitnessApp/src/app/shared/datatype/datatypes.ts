@@ -36,4 +36,8 @@ export interface Recipe {
   pictureUrl: string,
   pictureDataUrl?: string,
   uploader: string,
+  calories?: number,
+  total_fat?: number,
+  carbohydrates?: number,
+  protein?: number,
 }

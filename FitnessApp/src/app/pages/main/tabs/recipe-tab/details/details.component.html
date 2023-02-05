@@ -1,0 +1,45 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="main/recipes"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{recipe.name}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <img [src]="recipe.pictureUrl" alt="">
+
+  <h3>
+    Category:
+    <ion-chip
+    color="primary">
+      {{recipe.category}}
+    </ion-chip>
+  </h3>
+
+  <div>
+    <h3>
+      Macros
+    </h3>
+    <ion-card>
+      <ion-card-content>
+        <b>Calories:</b> {{recipe.calories | number: '1.0-2'}} kcal<br>
+        <b>Protein:</b> {{recipe.protein | number: '1.0-2'}} g<br>
+        <b>Carbohydrate</b>: {{recipe.carbohydrates | number: '1.0-2'}} g<br>
+        <b>Fat:</b> {{recipe.total_fat | number: '1.0-2'}} g<br>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <div>
+    <h3>
+      How to make
+    </h3>
+    <ion-card>
+      <ion-card-content>
+        {{recipe.howToMake}}
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>

@@ -18,6 +18,7 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatInputModule} from '@angular/material/input';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
+import { DetailsComponent } from './tabs/recipe-tab/details/details.component';
 
 @NgModule({
   imports: [
@@ -39,7 +40,7 @@ import {MatButtonModule} from '@angular/material/button';
     RecipeCardComponent,
     IngredientsTabComponent,
     AddIngredientComponent,
-
+    DetailsComponent,
   ],
   schemas:[
     CUSTOM_ELEMENTS_SCHEMA

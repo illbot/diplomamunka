@@ -5,6 +5,7 @@ import { MainPage } from './main.page';
 import { IngredientsTabComponent } from './tabs/ingredients-tab/ingredients-tab.component';
 import { MainTabComponent } from './tabs/main-tab/main-tab.component';
 import { ProfileComponent } from './tabs/profile/profile.component';
+import { DetailsComponent } from './tabs/recipe-tab/details/details.component';
 import { RecipeTabComponent } from './tabs/recipe-tab/recipe-tab.component';
 
 const routes: Routes = [
@@ -14,7 +15,11 @@ const routes: Routes = [
     children: [
       {
         path:'recipes',
-        component: RecipeTabComponent
+        component: RecipeTabComponent,
+      },
+      {
+        path:'recipes/details',
+        component: DetailsComponent,
       },
       {
         path:'profile',

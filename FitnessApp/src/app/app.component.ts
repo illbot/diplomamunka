@@ -3,13 +3,14 @@ import { FirebaseApp, initializeApp } from "firebase/app";
 import { Analytics, getAnalytics } from "firebase/analytics";
 import { environment as env } from 'src/environments/environment';
 import { AuthService } from './services/auth.service';
-import { getAuth } from 'firebase/auth';
+import { getAuth, indexedDBLocalPersistence, initializeAuth } from 'firebase/auth';
 import { TranslateService } from '@ngx-translate/core';
 import { getFirestore } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
 import { PersonalGoalsService } from './services/personal-goals.service';
 import { RecipeService } from './services/recipe.service';
 import { IngredientService } from './services/ingredient.service';
+import { Capacitor } from '@capacitor/core';
 
 @Component({
   selector: 'app-root',
@@ -33,6 +34,11 @@ export class AppComponent {
 
   initFirebase(){
     this.app = initializeApp(env.firebaseConfig);
+    if(Capacitor.isNativePlatform){
+      initializeAuth(this.app, {
+        persistence:indexedDBLocalPersistence
+      });
+    }
     this.analytics = getAnalytics(this.app);
     this.authService.setAuth(getAuth(this.app));
     const firestore = getFirestore(this.app);

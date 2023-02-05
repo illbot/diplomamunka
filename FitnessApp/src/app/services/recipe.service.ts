@@ -67,14 +67,12 @@ export class RecipeService {
     }
   }
 
-  async filterIngredientsFromDb(ingredientName: string): Promise<boolean | Map<string,RecipeIngredients>>{
-    let resultList: Map<string,RecipeIngredients> = new Map();
+  async filterIngredientsFromDb(ingredientName: string): Promise<boolean | Array<RecipeIngredients>>{
+    let resultList: Array<RecipeIngredients> = []
     try {
       const q = query(
         collection(this.db, "foodIngredients"),
-        orderBy("name"),
-        startAt(ingredientName),
-        endAt(ingredientName + '\uf8ff') // magic happens here
+        where('searchField','array-contains',ingredientName)
       );
 
       const qSnapshot = await getDocs(q);
@@ -82,7 +80,7 @@ export class RecipeService {
       //const qSnapshot = await getDocs(collection(this.db, "foodIngredients"));
 
       qSnapshot.forEach((doc:any) => {
-        resultList.set(doc.id,doc.data())
+        resultList.push(doc.data());
       });
       return resultList;
     } catch (error) {
