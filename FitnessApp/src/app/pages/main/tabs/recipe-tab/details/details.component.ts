@@ -14,7 +14,6 @@ export class DetailsComponent implements OnInit {
     private route: Router
   ) {
     const state = this.route.getCurrentNavigation().extras.state;
-    console.log(state.recipe);
     this.recipe = state.recipe;
   }
 

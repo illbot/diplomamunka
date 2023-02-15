@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { addDoc, collection, doc, endAt, Firestore, getDocs, limit, orderBy, query, setDoc, startAt, where } from 'firebase/firestore';
+import { addDoc, collection, doc, endAt, Firestore, getDoc, getDocs, limit, orderBy, query, setDoc, startAt, where } from 'firebase/firestore';
 import { deleteObject, FirebaseStorage, getDownloadURL, ref, uploadBytes, uploadString } from 'firebase/storage';
 import { Recipe, RecipeIngredients } from '../shared/datatype/datatypes';
 import { uniqueID } from '../shared/uniqueId';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,9 @@ export class RecipeService {
   private db;
   private storage;
 
-  constructor() { }
+  constructor(
+    private authService: AuthService
+  ) { }
 
   setFirestore(firestore: Firestore) {
     this.db = firestore
@@ -94,12 +97,77 @@ export class RecipeService {
     try {
       const qSnapshot = await getDocs(collection(this.db, 'recipes'))
       qSnapshot.forEach(doc => {
-        resultList.push(doc.data())
+        let recipe = doc.data()
+        recipe.id = doc.id;
+        resultList.push(recipe)
       });
       return resultList;
     } catch (error) {
       console.error(error)
       return resultList;
+    }
+  }
+
+  async getFavouriteRecipes(){
+    const userId = (await this.authService.getUserData()).uid;
+    let resultList: any[] = [];
+    const docRef = doc(this.db, 'favouriteFoods', userId);
+    try {
+      const doc = await getDoc(docRef)
+
+      const result = doc.data();
+
+      result.favoriteFoods.forEach(food=>{
+        resultList.push(food);
+      })
+
+      return resultList;
+    } catch (error) {
+      console.error(error)
+      return resultList;
+    }
+  }
+
+  async addToFavouriteRecipes(recipe: any){
+    const userId = (await this.authService.getUserData()).uid;
+
+    const docRef = doc(this.db, "favouriteFoods", userId)
+    try{
+      const result = await getDoc(docRef);
+      if(result.exists()){
+        let favouriteFoodObject = result.data();
+        favouriteFoodObject.favoriteFoods.push(recipe);
+        await setDoc(docRef,favouriteFoodObject);
+      } else {
+        await setDoc(docRef,{
+          userId: userId,
+          favoriteFoods: []
+        });
+      }
+      return true;
+    } catch(error) {
+      console.error(error);
+      return false;
+    }
+
+  }
+
+  async deleteFromFavouriteRecipes(recipe: any) {
+    const userId = (await this.authService.getUserData()).uid;
+    const docRef = doc(this.db, "favouriteFoods", userId)
+
+    try{
+      const result = await getDoc(docRef);
+      if(result.exists()){
+        let favouriteFoodObject = result.data();
+        favouriteFoodObject.favoriteFoods =
+              favouriteFoodObject.favoriteFoods.filter(food => food.id != recipe.id);
+        await setDoc(docRef,favouriteFoodObject);
+      }
+      return true;
+    } catch(error) {
+      console.error(error);
+      return false;
     }
   }
 

@@ -6,6 +6,7 @@ import { IngredientsTabComponent } from './tabs/ingredients-tab/ingredients-tab.
 import { MainTabComponent } from './tabs/main-tab/main-tab.component';
 import { ProfileComponent } from './tabs/profile/profile.component';
 import { DetailsComponent } from './tabs/recipe-tab/details/details.component';
+import { FavouriteRecipesComponent } from './tabs/recipe-tab/favourite-recipes/favourite-recipes.component';
 import { RecipeTabComponent } from './tabs/recipe-tab/recipe-tab.component';
 
 const routes: Routes = [
@@ -20,6 +21,10 @@ const routes: Routes = [
       {
         path:'recipes/details',
         component: DetailsComponent,
+      },
+      {
+        path:'recipes/favourites',
+        component: FavouriteRecipesComponent,
       },
       {
         path:'profile',

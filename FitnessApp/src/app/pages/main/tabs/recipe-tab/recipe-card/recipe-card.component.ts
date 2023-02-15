@@ -1,6 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { RecipeService } from 'src/app/services/recipe.service';
 import { Recipe } from 'src/app/shared/datatype/datatypes';
+
 
 @Component({
   selector: 'app-recipe-card',
@@ -12,6 +13,9 @@ export class RecipeCardComponent implements OnInit {
   @Input('recipe') recipe: Recipe;
   imageUrl:string;
 
+  @Output('onFavourite') onFavourite: EventEmitter<any> = new EventEmitter();
+  @Output('onPicture') onPicture: EventEmitter<any> = new EventEmitter();
+
   constructor(
     private recipeService: RecipeService,
   ) { }
@@ -21,6 +25,13 @@ export class RecipeCardComponent implements OnInit {
   }
 
   onCardClick(){
-    console.log(this.recipe)
+  }
+
+  onFavouriteClick(){
+    this.onFavourite.emit();
+  }
+
+  onPictureClick(){
+    this.onPicture.emit();
   }
 }

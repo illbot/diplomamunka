@@ -19,6 +19,7 @@ import {MatInputModule} from '@angular/material/input';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
 import { DetailsComponent } from './tabs/recipe-tab/details/details.component';
+import { FavouriteRecipesComponent } from './tabs/recipe-tab/favourite-recipes/favourite-recipes.component';
 
 @NgModule({
   imports: [
@@ -41,6 +42,7 @@ import { DetailsComponent } from './tabs/recipe-tab/details/details.component';
     IngredientsTabComponent,
     AddIngredientComponent,
     DetailsComponent,
+    FavouriteRecipesComponent
   ],
   schemas:[
     CUSTOM_ELEMENTS_SCHEMA

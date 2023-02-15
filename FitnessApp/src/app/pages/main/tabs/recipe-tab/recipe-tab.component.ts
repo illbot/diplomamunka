@@ -8,6 +8,7 @@ import { uniqueID } from 'src/app/shared/uniqueId';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera'
 import { AddRecipeComponent } from './add-recipe/add-recipe.component';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ToastService } from 'src/app/services/toast.service';
 
 interface LocalFile {
   name: string;
@@ -23,16 +24,19 @@ interface LocalFile {
 export class RecipeTabComponent implements OnInit {
 
   recipeList: any[]
+  favouriteRecipeList: any[]
 
   constructor(
     private recipeService: RecipeService,
     private authService: AuthService,
     private modalCtrl: ModalController,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private toastService: ToastService,
   ) { }
 
-  ngOnInit() {
+  async ngOnInit() {
+    await this.getFavouriteRecipes();
     this.getRecipes();
   }
 
@@ -42,6 +46,7 @@ export class RecipeTabComponent implements OnInit {
 
     for(let recipe of result){
       recipe.pictureUrl = await this.recipeService.getImageUrlFromStorage(recipe.pictureUrl);
+      recipe.isFavourite = this.isFavourite(recipe);
       this.recipeList.push(recipe);
     }
 
@@ -50,7 +55,10 @@ export class RecipeTabComponent implements OnInit {
 
   onIonInfinite (ev){
     this.recipeService.getRecipes().then(async result=>{
-      result.forEach(recipe => this.recipeList.push(recipe));
+      result.forEach(recipe => {
+        recipe.isFavourite = this.isFavourite(recipe);
+        this.recipeList.push(recipe)
+      });
       (ev as InfiniteScrollCustomEvent).target.complete();
     });
   }
@@ -74,6 +82,33 @@ export class RecipeTabComponent implements OnInit {
     if(role ==='confirm') {
       console.log(data);
       this.getRecipes();
+    }
+  }
+
+  private isFavourite(recipe: any):boolean{
+    const found = this.favouriteRecipeList.find(favRecipe => favRecipe.id === recipe.id);
+    return found ? true : false;
+  }
+
+  async getFavouriteRecipes() {
+    this.favouriteRecipeList = await this.recipeService.getFavouriteRecipes();
+  }
+
+  async onFavourite(element){
+    if(!element.isFavourite){
+      element.isFavourite = !element.isFavourite;
+      let result = await this.recipeService.addToFavouriteRecipes(element);
+      if(result){
+        this.toastService.showSuccessToast("You added a favourite! :)")
+      }else{
+        this.toastService.showErrorToast("Something went wrong! :(")
+      }
+    } else {
+      element.isFavourite = !element.isFavourite;
+      let result = await this.recipeService.deleteFromFavouriteRecipes(element);
+      if(!result){
+        this.toastService.showErrorToast("Something went wrong! :(")
+      }
     }
   }
 }

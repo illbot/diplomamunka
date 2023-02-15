@@ -9,7 +9,8 @@
   <app-recipe-card
   *ngFor="let element of recipeList"
   [recipe]="element"
-  (click)="navigateToChild(element)"></app-recipe-card>
+  (onPicture)="navigateToChild(element)"
+  (onFavourite)="onFavourite(element)"></app-recipe-card>
 
   <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">
     <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more recipes...">
@@ -23,6 +24,9 @@
     <ion-fab-list side="top">
       <ion-fab-button (click)="openModal()">
         <ion-icon name="add"></ion-icon>
+      </ion-fab-button>
+      <ion-fab-button [routerLink]="['favourites']">
+        <ion-icon name="heart"></ion-icon>
       </ion-fab-button>
     </ion-fab-list>
   </ion-fab>

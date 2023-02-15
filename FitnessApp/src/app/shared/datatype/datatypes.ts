@@ -29,6 +29,7 @@ export interface RecipeIngredients {
 }
 
 export interface Recipe {
+  isFavourite?: any
   name: string,
   category: string,
   ingredientList: any[],

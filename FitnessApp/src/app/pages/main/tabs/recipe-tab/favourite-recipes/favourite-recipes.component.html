@@ -1,0 +1,19 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="main/recipes"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Favourite Recipes</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <app-recipe-card
+  *ngFor="let element of favouriteRecipes"
+  [recipe]="element"
+  (onPicture)="navigateToDetails(element)"
+  ></app-recipe-card>
+
+</ion-content>
+
+
