@@ -4,6 +4,80 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  
+<ion-content class="ion-padding">
+
+
+  <h1>
+    Progress
+
+    <ion-button class="ion-float-right" size="small" fill="clear">
+      <ion-icon name="information-circle-outline"></ion-icon>
+    </ion-button>
+  </h1>
+
+  <ion-card>
+    <ion-card-content>
+      <ion-grid>
+        <ion-row class="ion-align-items-center">
+          <ion-col>
+            <p>
+              Remain: <br>
+              <b>{{calorieNeed - actualCalories | number: '1.0-0'}} kcal</b>
+            </p>
+          </ion-col>
+          <ion-col>
+            <ngx-gauge
+            class="ion-float-center"
+            style="margin-left: auto; margin-right: auto;"
+            type="arch"
+            size="150"
+            cap="round"
+            thick="15"
+            label="Calories"
+            [append]="gauge.append"
+            [max]="gauge.max"
+            [value]="actualCalories"></ngx-gauge>
+          </ion-col>
+          <ion-col>
+            <p>
+              Max: <br>
+              <b>{{calorieNeed | number: '1.0-0'}} kcal</b>
+            </p>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <b>PROTEIN</b>
+          </ion-col>
+          <ion-col>
+            <b>CARBS</b>
+          </ion-col>
+          <ion-col>
+            <b>FAT</b>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            0/{{nutrientNeeds.protein | number: '1.0-0'}} g
+          </ion-col>
+          <ion-col>
+            0/{{nutrientNeeds.carbohydrates | number: '1.0-0'}} g
+          </ion-col>
+          <ion-col>
+            0/{{nutrientNeeds.fat | number: '1.0-0'}} g
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+
+  <h1>Statistics</h1>
+
+
+  <!--div class="chart-container">
+    <canvas id="calorie-gauge"></canvas>
+  </div-->
+
+
+
 </ion-content>

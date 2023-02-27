@@ -10,7 +10,8 @@
   *ngFor="let element of recipeList"
   [recipe]="element"
   (onPicture)="navigateToChild(element)"
-  (onFavourite)="onFavourite(element)"></app-recipe-card>
+  (onFavourite)="onFavourite(element)"
+  (onEat)="onEat(element)"></app-recipe-card>
 
   <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">
     <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more recipes...">

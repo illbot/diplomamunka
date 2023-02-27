@@ -15,6 +15,7 @@ export class RecipeCardComponent implements OnInit {
 
   @Output('onFavourite') onFavourite: EventEmitter<any> = new EventEmitter();
   @Output('onPicture') onPicture: EventEmitter<any> = new EventEmitter();
+  @Output('onEat') onEat: EventEmitter<any> = new EventEmitter();
 
   constructor(
     private recipeService: RecipeService,
@@ -33,5 +34,9 @@ export class RecipeCardComponent implements OnInit {
 
   onPictureClick(){
     this.onPicture.emit();
+  }
+
+  onEatClick(){
+    this.onEat.emit();
   }
 }

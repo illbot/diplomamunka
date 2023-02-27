@@ -1,0 +1,9 @@
+::ng-deep ngx-gauge .reading-block {
+  position: absolute;
+  width: 100%;
+  font-weight: 300;
+  white-space: nowrap;
+  text-align: center;
+  overflow: visible;
+  text-overflow: ellipsis;
+}

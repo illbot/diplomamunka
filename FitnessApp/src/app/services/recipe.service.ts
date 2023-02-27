@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
+import { tr } from 'date-fns/locale';
 import { addDoc, collection, doc, endAt, Firestore, getDoc, getDocs, limit, orderBy, query, setDoc, startAt, where } from 'firebase/firestore';
 import { deleteObject, FirebaseStorage, getDownloadURL, ref, uploadBytes, uploadString } from 'firebase/storage';
+import { Observable, Subscriber } from 'rxjs';
 import { Recipe, RecipeIngredients } from '../shared/datatype/datatypes';
 import { uniqueID } from '../shared/uniqueId';
 import { AuthService } from './auth.service';
@@ -13,9 +15,91 @@ export class RecipeService {
   private db;
   private storage;
 
+  // Publish/Subscribe
+  public eatingObserver$: Subscriber<number>;
+  public eatingObservable = new Observable<number>((observer)=>{
+    this.eatingObserver$ = observer;
+  });
+
   constructor(
     private authService: AuthService
-  ) { }
+  ) {
+  }
+
+  async createDailyEatenFood(){
+    const today:string = new Date().toISOString().slice(0, 10);
+    const userId = (await this.authService.getUserData()).uid;
+
+    // get docRef of user
+    const docRef = doc(this.db, 'userDailyFood', userId);
+    let docSnap = await getDoc(docRef);
+    // check if daily food exist on user
+    if(!docSnap.exists()){
+      await setDoc(docRef,{
+        eatenFoods: {}
+      });
+
+      docSnap = await getDoc(docRef);
+    }
+
+    // check if todays date exists on eatenFoods
+    let eatenFoods1 = docSnap.data().eatenFoods;
+    if(!(today in eatenFoods1)){
+      eatenFoods1[today] = [];
+      await setDoc(docRef, {
+        eatenFoods: eatenFoods1
+      })
+    }
+  }
+
+  async addFoodToEatenFood(food: any){
+    const today:string = new Date().toISOString().slice(0, 10);
+    const userId = (await this.authService.getUserData()).uid;
+
+    try {
+      const docRef = doc(this.db, 'userDailyFood', userId);
+      let docSnap = await getDoc(docRef);
+      let eatenFoods=  docSnap.data().eatenFoods;
+      let eatenFoodsChild = <Array<any>> docSnap.data().eatenFoods[today];
+
+      // Hacky
+      eatenFoodsChild.push(food);
+      eatenFoods[today] = eatenFoodsChild;
+
+      await setDoc(docRef, {
+        eatenFoods: eatenFoods
+      });
+      return true;
+    } catch(error) {
+      console.error(error);
+      return false;
+    }
+  }
+
+  async getEatenFoodCalories(){
+    const today:string = new Date().toISOString().slice(0, 10);
+    const userId = (await this.authService.getUserData()).uid;
+    let eatenFoods1 = []
+    let result = 0;
+    try {
+      const docRef = doc(this.db, 'userDailyFood', userId);
+      let docSnap = await getDoc(docRef);
+
+      if(docSnap.exists()){
+        eatenFoods1 = <Array<any>> docSnap.data().eatenFoods[today];
+        if(eatenFoods1){
+          eatenFoods1.forEach(element => {
+            result += element.calories
+          });
+        }
+      }
+
+      return result;
+    } catch(error) {
+      console.error(error);
+      return 0;
+    }
+  }
 
   setFirestore(firestore: Firestore) {
     this.db = firestore

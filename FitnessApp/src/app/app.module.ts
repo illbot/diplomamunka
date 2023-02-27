@@ -50,9 +50,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     }),*/
     AppRoutingModule,
     SwiperModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
   ],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
+  providers: [
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+  ],
   bootstrap: [AppComponent],
   schemas:[
     CUSTOM_ELEMENTS_SCHEMA

@@ -20,6 +20,8 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
 import { DetailsComponent } from './tabs/recipe-tab/details/details.component';
 import { FavouriteRecipesComponent } from './tabs/recipe-tab/favourite-recipes/favourite-recipes.component';
+import { NgxGaugeModule } from 'ngx-gauge';
+
 
 @NgModule({
   imports: [
@@ -31,6 +33,7 @@ import { FavouriteRecipesComponent } from './tabs/recipe-tab/favourite-recipes/f
     MatInputModule,
     MatIconModule,
     MatButtonModule,
+    NgxGaugeModule
   ],
   declarations: [
     MainPage,

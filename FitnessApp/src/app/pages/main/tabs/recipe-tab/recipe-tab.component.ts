@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { InfiniteScrollCustomEvent, IonModal, ModalController } from '@ionic/angular';
 import { OverlayEventDetail } from '@ionic/core';
 import { AuthService } from 'src/app/services/auth.service';
@@ -28,16 +28,29 @@ export class RecipeTabComponent implements OnInit {
 
   constructor(
     private recipeService: RecipeService,
-    private authService: AuthService,
     private modalCtrl: ModalController,
     private router: Router,
     private route: ActivatedRoute,
     private toastService: ToastService,
-  ) { }
+  ) {
+
+  }
 
   async ngOnInit() {
+    this.recipeService.createDailyEatenFood();
     await this.getFavouriteRecipes();
     this.getRecipes();
+  }
+
+  onEat(element){
+    console.log(element);
+    this.recipeService.addFoodToEatenFood(element).then((res)=>{
+      if(res){
+        this.recipeService.eatingObserver$.next(element.calories);
+      } else {
+        this.toastService.showErrorToast("Something went wrong! :(")
+      }
+    })
   }
 
   async getRecipes(){
