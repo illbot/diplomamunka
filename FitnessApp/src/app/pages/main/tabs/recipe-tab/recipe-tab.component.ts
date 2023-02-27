@@ -46,7 +46,12 @@ export class RecipeTabComponent implements OnInit {
     console.log(element);
     this.recipeService.addFoodToEatenFood(element).then((res)=>{
       if(res){
-        this.recipeService.eatingObserver$.next(element.calories);
+        this.recipeService.eatingObserver$.next({
+          calories : element.calories,
+          carbohydrates: element.carbohydrates,
+          protein: element.carbohydrates,
+          total_fat: element.carbohydrates,
+        });
       } else {
         this.toastService.showErrorToast("Something went wrong! :(")
       }

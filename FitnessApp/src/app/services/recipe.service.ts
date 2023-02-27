@@ -16,8 +16,8 @@ export class RecipeService {
   private storage;
 
   // Publish/Subscribe
-  public eatingObserver$: Subscriber<number>;
-  public eatingObservable = new Observable<number>((observer)=>{
+  public eatingObserver$: Subscriber<any>;
+  public eatingObservable = new Observable<any>((observer)=>{
     this.eatingObserver$ = observer;
   });
 
@@ -80,7 +80,12 @@ export class RecipeService {
     const today:string = new Date().toISOString().slice(0, 10);
     const userId = (await this.authService.getUserData()).uid;
     let eatenFoods1 = []
-    let result = 0;
+    let result = {
+      calories: 0,
+      carbohydrates: 0,
+      protein: 0,
+      total_fat: 0,
+    };
     try {
       const docRef = doc(this.db, 'userDailyFood', userId);
       let docSnap = await getDoc(docRef);
@@ -89,7 +94,10 @@ export class RecipeService {
         eatenFoods1 = <Array<any>> docSnap.data().eatenFoods[today];
         if(eatenFoods1){
           eatenFoods1.forEach(element => {
-            result += element.calories
+            result.calories += element.calories;
+            result.carbohydrates += element.carbohydrates;
+            result.protein += element.protein;
+            result.total_fat += element.total_fat;
           });
         }
       }
@@ -97,7 +105,7 @@ export class RecipeService {
       return result;
     } catch(error) {
       console.error(error);
-      return 0;
+      return result;
     }
   }
 

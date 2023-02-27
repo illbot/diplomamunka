@@ -14,10 +14,21 @@ import { PersonalGoals } from 'src/app/shared/datatype/datatypes';
 export class MainTabComponent implements OnInit, AfterViewInit {
   calorieNeed = 2000;
   actualCalories = 0;
+
+  actualNutrients = {
+    protein: 0,
+    carbohydrates: 0,
+    fat: 0
+  }
+
   nutrientNeeds = {
     protein: 0,
     carbohydrates: 0,
     fat: 0
+  }
+
+  thresholdConfig = {
+    '0': {color: '#488AFF'},
   }
 
   gauge: any = {
@@ -42,14 +53,20 @@ export class MainTabComponent implements OnInit, AfterViewInit {
     this.getPersonalGoals();
     this.getEatenFoodCalories();
 
-    this.recipeService.eatingObservable.subscribe((plusCalorie)=>{
-      this.actualCalories += plusCalorie;
+    this.recipeService.eatingObservable.subscribe((macros)=>{
+      this.actualCalories += Math.round(macros.calories);
+      this.actualNutrients.carbohydrates += Math.round(macros.carbohydrates);
+      this.actualNutrients.protein += Math.round(macros.protein);
+      this.actualNutrients.fat += Math.round(macros.total_fat);
     });
   }
 
   getEatenFoodCalories(){
-    this.recipeService.getEatenFoodCalories().then((calories) => {
-      this.actualCalories = calories;
+    this.recipeService.getEatenFoodCalories().then((macros) => {
+      this.actualCalories = Math.round(macros.calories);
+      this.actualNutrients.carbohydrates = Math.round(macros.carbohydrates);
+      this.actualNutrients.protein = Math.round(macros.protein);
+      this.actualNutrients.fat = Math.round(macros.total_fat);
     })
   }
 
@@ -74,6 +91,8 @@ export class MainTabComponent implements OnInit, AfterViewInit {
 
   updateGauge(calorieNeed){
     this.gauge.max = calorieNeed;
+    const valueEightyPercent = calorieNeed * 0.8;
+    this.thresholdConfig[valueEightyPercent]={color: '#FF2929'}
   }
 
 
