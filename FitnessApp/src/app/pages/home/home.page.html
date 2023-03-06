@@ -10,12 +10,12 @@
     <ion-list style="padding-bottom: 25px;">
       <ion-item>
         <ion-icon slot="start" name="person-outline"></ion-icon>
-        <ion-input type="text" placeholder="Username" [(ngModel)]="username"></ion-input>
+        <ion-input id="emailInput" type="text" placeholder="Username" [(ngModel)]="username"></ion-input>
       </ion-item>
-  
+
       <ion-item *ngIf="!passwordVisibility"> <!--Password invisible-->
         <ion-icon slot="start" name="lock-closed-outline"></ion-icon>
-        <ion-input type="password" placeholder="Password" [(ngModel)]="password"></ion-input>
+        <ion-input id="passwordInput" type="password" placeholder="Password" [(ngModel)]="password"></ion-input>
 
         <ion-button *ngIf="!passwordVisibility" size="small" fill="clear" shape="round" (click)="togglePasswordVisibility()" class="ion-activatable">
           <ion-icon name="eye-outline"></ion-icon>
@@ -34,8 +34,8 @@
       </ion-item>
 
     </ion-list>
-  
-    <ion-button expand="block" shape="round" (click)="login()">
+
+    <ion-button id="loginButton" expand="block" shape="round" (click)="login()">
       Login
     </ion-button>
 
