@@ -21,6 +21,7 @@ import {MatButtonModule} from '@angular/material/button';
 import { DetailsComponent } from './tabs/recipe-tab/details/details.component';
 import { FavouriteRecipesComponent } from './tabs/recipe-tab/favourite-recipes/favourite-recipes.component';
 import { NgxGaugeModule } from 'ngx-gauge';
+import { WeightChartComponent } from './tabs/main-tab/weight-chart/weight-chart.component';
 
 
 @NgModule({
@@ -45,7 +46,8 @@ import { NgxGaugeModule } from 'ngx-gauge';
     IngredientsTabComponent,
     AddIngredientComponent,
     DetailsComponent,
-    FavouriteRecipesComponent
+    FavouriteRecipesComponent,
+    WeightChartComponent,
   ],
   schemas:[
     CUSTOM_ELEMENTS_SCHEMA

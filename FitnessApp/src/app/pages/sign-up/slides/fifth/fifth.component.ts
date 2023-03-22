@@ -8,13 +8,13 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 export class FifthComponent implements OnInit {
 
   @Input() height: number;
-  @Output() heightChange = new EventEmitter<number>(); 
+  @Output() heightChange = new EventEmitter<number>();
 
   constructor() { }
 
   ngOnInit() {}
 
   handleChange(ev){
-    this.heightChange.emit(ev.target.value);
+    this.heightChange.emit(Number(ev.target.value));
   }
 }

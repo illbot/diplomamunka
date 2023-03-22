@@ -26,29 +26,26 @@ export class RecipeService {
   ) {
   }
 
+  private generateDailyEatenFoodId(userId:string,today:string){
+    return userId + '__' + today;
+  }
+
   async createDailyEatenFood(){
     const today:string = new Date().toISOString().slice(0, 10);
     const userId = (await this.authService.getUserData()).uid;
 
+    const key = this.generateDailyEatenFoodId(userId,today);
+
     // get docRef of user
-    const docRef = doc(this.db, 'userDailyFood', userId);
+    const docRef = doc(this.db, 'userDailyFood', key);
     let docSnap = await getDoc(docRef);
     // check if daily food exist on user
     if(!docSnap.exists()){
       await setDoc(docRef,{
-        eatenFoods: {}
+        food:[]
       });
 
       docSnap = await getDoc(docRef);
-    }
-
-    // check if todays date exists on eatenFoods
-    let eatenFoods1 = docSnap.data().eatenFoods;
-    if(!(today in eatenFoods1)){
-      eatenFoods1[today] = [];
-      await setDoc(docRef, {
-        eatenFoods: eatenFoods1
-      })
     }
   }
 
@@ -56,18 +53,17 @@ export class RecipeService {
     const today:string = new Date().toISOString().slice(0, 10);
     const userId = (await this.authService.getUserData()).uid;
 
-    try {
-      const docRef = doc(this.db, 'userDailyFood', userId);
-      let docSnap = await getDoc(docRef);
-      let eatenFoods=  docSnap.data().eatenFoods;
-      let eatenFoodsChild = <Array<any>> docSnap.data().eatenFoods[today];
+    const key = this.generateDailyEatenFoodId(userId,today);
 
-      // Hacky
-      eatenFoodsChild.push(food);
-      eatenFoods[today] = eatenFoodsChild;
+    try {
+      const docRef = doc(this.db, 'userDailyFood', key);
+      let docSnap = await getDoc(docRef);
+      let eatenFoods=  docSnap.data().food;
+
+      eatenFoods.push(food);
 
       await setDoc(docRef, {
-        eatenFoods: eatenFoods
+        food: eatenFoods
       });
       return true;
     } catch(error) {
@@ -79,6 +75,9 @@ export class RecipeService {
   async getEatenFoodCalories(){
     const today:string = new Date().toISOString().slice(0, 10);
     const userId = (await this.authService.getUserData()).uid;
+
+    const key = this.generateDailyEatenFoodId(userId, today);
+
     let eatenFoods1 = []
     let result = {
       calories: 0,
@@ -87,11 +86,11 @@ export class RecipeService {
       total_fat: 0,
     };
     try {
-      const docRef = doc(this.db, 'userDailyFood', userId);
+      const docRef = doc(this.db, 'userDailyFood', key);
       let docSnap = await getDoc(docRef);
 
       if(docSnap.exists()){
-        eatenFoods1 = <Array<any>> docSnap.data().eatenFoods[today];
+        eatenFoods1 = <Array<any>> docSnap.data().food;
         if(eatenFoods1){
           eatenFoods1.forEach(element => {
             result.calories += element.calories;

@@ -14,7 +14,13 @@ export class ProfileComponent implements OnInit {
 
   personalGoals: PersonalGoals;
   isLoadingPersonalGoals: boolean = false;
-  
+  newPersonalGoals = {
+    goal: '',
+    goalWeight: 0,
+    currentWeight: 0,
+    activityLevel: ''
+  }
+
   //modal testing
   message = 'This modal example uses triggers to automatically open a modal when the button is clicked.';
   name:string;
@@ -35,11 +41,32 @@ export class ProfileComponent implements OnInit {
     this.personalGoalsService.getPersonalGoals().then((goals)=>{
       this.personalGoals = goals;
       this.isLoadingPersonalGoals = false;
+
+      this.newPersonalGoals.goal = goals.goal;
+      this.newPersonalGoals.currentWeight = goals.currentWeight;
+      this.newPersonalGoals.goalWeight = goals.goalWeight;
+
       console.log(this.personalGoals);
     })
     .catch((error)=>{
       this.toastService.showErrorToast(error.message);
     })
+  }
+
+  handleGoalChange(ev){
+    this.newPersonalGoals.goal = ev.detail.value;
+  }
+
+  handleCurrentWeightChange(ev){
+    this.newPersonalGoals.currentWeight = Number(ev.detail.value);
+  }
+
+  handleGoalWeightChange(ev){
+    this.newPersonalGoals.goalWeight = Number(ev.detail.value);
+  }
+
+  handleActivityLevelChange(ev){
+    this.newPersonalGoals.activityLevel = ev.detail.value;
   }
 
   // MODAL THINGS
@@ -55,6 +82,19 @@ export class ProfileComponent implements OnInit {
   }
 
   confirm() {
+    this.personalGoals.goal = this.newPersonalGoals.goal;
+    this.personalGoals.goalWeight = this.newPersonalGoals.goalWeight;
+    this.personalGoals.currentWeight = this.newPersonalGoals.currentWeight;
+    this.personalGoals.activityLevel = this.newPersonalGoals.activityLevel;
+
+    this.personalGoalsService.savePersonalGoals(this.personalGoals).then(res=>{
+      if(res){
+        this.toastService.showSuccessToast("Personal goals saved!")
+      } else {
+        this.toastService.showErrorToast("Error while saving personal goals")
+      }
+    });
+
     this.modal.dismiss(this.name, 'confirm');
   }
 }

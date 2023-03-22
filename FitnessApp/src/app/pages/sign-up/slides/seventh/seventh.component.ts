@@ -8,13 +8,13 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 export class SeventhComponent implements OnInit {
 
   @Input() weight:number;
-  @Output() weightChange = new EventEmitter<number>(); 
+  @Output() weightChange = new EventEmitter<number>();
 
   constructor() { }
 
   ngOnInit() {}
 
   handleChange(ev){
-    this.weightChange.emit(ev.target.value);
+    this.weightChange.emit(Number(ev.target.value));
   }
 }

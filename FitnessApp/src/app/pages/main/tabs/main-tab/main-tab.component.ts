@@ -1,8 +1,11 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { IonModal } from '@ionic/angular';
+import { OverlayEventDetail } from '@ionic/core';
 import { Chart } from 'chart.js/auto';
 import { HealthMetricsService } from 'src/app/services/health-metrics.service';
 import { PersonalGoalsService } from 'src/app/services/personal-goals.service';
 import { RecipeService } from 'src/app/services/recipe.service';
+import { ToastService } from 'src/app/services/toast.service';
 import { PersonalGoals } from 'src/app/shared/datatype/datatypes';
 
 
@@ -12,6 +15,7 @@ import { PersonalGoals } from 'src/app/shared/datatype/datatypes';
   styleUrls: ['./main-tab.component.scss'],
 })
 export class MainTabComponent implements OnInit, AfterViewInit {
+
   calorieNeed = 2000;
   actualCalories = 0;
 
@@ -37,11 +41,13 @@ export class MainTabComponent implements OnInit, AfterViewInit {
   };
   personalGoals: PersonalGoals;
 
+  @ViewChild(IonModal) modal: IonModal;
 
   constructor(
     private personalGoalsService: PersonalGoalsService,
     private healthMetricsService: HealthMetricsService,
-    private recipeService: RecipeService
+    private recipeService: RecipeService,
+    private toast: ToastService,
   ) { }
 
   ngAfterViewInit(): void {
@@ -95,5 +101,21 @@ export class MainTabComponent implements OnInit, AfterViewInit {
     this.thresholdConfig[valueEightyPercent]={color: '#FF2929'}
   }
 
+  confirmUpdate() {
+    this.modal.dismiss(null, 'update');
+  }
+
+  cancelUpdate() {
+    this.modal.dismiss(null, 'cancel');
+  }
+
+  async onWillDismiss($event: Event) {
+    const ev = event as CustomEvent<OverlayEventDetail<string>>;
+    if (ev.detail.role === 'update') {
+      const result = await this.personalGoalsService.savePersonalGoals(this.personalGoals);
+      if(result) this.toast.showSuccessToast("Successfully saved!");
+      else this.toast.showErrorToast("Something went wrong! :(");
+    }
+  }
 
 }

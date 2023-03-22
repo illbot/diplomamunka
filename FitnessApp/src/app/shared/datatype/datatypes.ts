@@ -13,7 +13,8 @@ export interface PersonalGoals{
     birthDate: string,
     currentWeight: number,
     goalWeight: number,
-    height: number
+    height: number,
+    activityLevel?:string,
 }
 
 export interface RecipeIngredients {
