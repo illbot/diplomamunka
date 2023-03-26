@@ -1,7 +1,8 @@
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { IonModal } from '@ionic/angular';
 import { OverlayEventDetail } from '@ionic/core';
 import { Chart } from 'chart.js/auto';
+import { Subscription } from 'rxjs';
 import { HealthMetricsService } from 'src/app/services/health-metrics.service';
 import { PersonalGoalsService } from 'src/app/services/personal-goals.service';
 import { RecipeService } from 'src/app/services/recipe.service';
@@ -14,7 +15,7 @@ import { PersonalGoals } from 'src/app/shared/datatype/datatypes';
   templateUrl: './main-tab.component.html',
   styleUrls: ['./main-tab.component.scss'],
 })
-export class MainTabComponent implements OnInit, AfterViewInit {
+export class MainTabComponent implements OnInit, AfterViewInit, OnDestroy {
 
   calorieNeed = 2000;
   actualCalories = 0;
@@ -43,28 +44,41 @@ export class MainTabComponent implements OnInit, AfterViewInit {
 
   @ViewChild(IonModal) modal: IonModal;
 
+  personalGoalsSubscription: Subscription;
+  eatingSubscription: Subscription;
+
   constructor(
     private personalGoalsService: PersonalGoalsService,
     private healthMetricsService: HealthMetricsService,
     private recipeService: RecipeService,
     private toast: ToastService,
-  ) { }
+  ) {
+
+    this.eatingSubscription = this.recipeService.eatingObservable.subscribe((macros)=>{
+      this.actualCalories += Math.round(macros.calories);
+      this.actualNutrients.carbohydrates += Math.round(macros.carbohydrates);
+      this.actualNutrients.protein += Math.round(macros.protein);
+      this.actualNutrients.fat += Math.round(macros.total_fat);
+    });
+
+  }
+
+  ngOnDestroy(): void {
+    this.eatingSubscription.unsubscribe();
+    this.personalGoalsSubscription.unsubscribe();
+  }
 
   ngAfterViewInit(): void {
-
+    this.personalGoalsSubscription = this.personalGoalsService.personalGoalsObserver$.subscribe(value=>{
+      console.log('main tab subscription');
+      this.getPersonalGoals();
+    })
   }
 
   ngOnInit() {
     this.initializeGauge();
     this.getPersonalGoals();
     this.getEatenFoodCalories();
-
-    this.recipeService.eatingObservable.subscribe((macros)=>{
-      this.actualCalories += Math.round(macros.calories);
-      this.actualNutrients.carbohydrates += Math.round(macros.carbohydrates);
-      this.actualNutrients.protein += Math.round(macros.protein);
-      this.actualNutrients.fat += Math.round(macros.total_fat);
-    });
   }
 
   getEatenFoodCalories(){

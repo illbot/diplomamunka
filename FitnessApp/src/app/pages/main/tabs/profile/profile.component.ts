@@ -1,6 +1,7 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { IonModal } from '@ionic/angular';
 import { OverlayEventDetail } from '@ionic/core';
+import { Subscription } from 'rxjs';
 import { PersonalGoalsService } from 'src/app/services/personal-goals.service';
 import { ToastService } from 'src/app/services/toast.service';
 import { PersonalGoals } from 'src/app/shared/datatype/datatypes';
@@ -10,7 +11,7 @@ import { PersonalGoals } from 'src/app/shared/datatype/datatypes';
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss'],
 })
-export class ProfileComponent implements OnInit {
+export class ProfileComponent implements OnInit, OnDestroy {
 
   personalGoals: PersonalGoals;
   isLoadingPersonalGoals: boolean = false;
@@ -26,11 +27,23 @@ export class ProfileComponent implements OnInit {
   name:string;
   @ViewChild(IonModal) modal: IonModal;
 
+  personalGoalsSubscription: Subscription;
+
 
   constructor(
     private personalGoalsService: PersonalGoalsService,
     private toastService: ToastService,
-  ) { }
+  ) {
+    this.personalGoalsSubscription = this.personalGoalsService.personalGoalsObserver$.subscribe(value=>{
+      if(value)
+        console.log('profile tap subscription')
+        this.getPersonalGoals();
+    })
+  }
+
+  ngOnDestroy(): void {
+    this.personalGoalsSubscription.unsubscribe();
+  }
 
   ngOnInit() {
     this.getPersonalGoals();

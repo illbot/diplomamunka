@@ -8,13 +8,27 @@ export class HealthMetricsService {
 
   constructor() { }
 
+  private activityLevelConstants = {
+    'sedentary': 1.2,
+    'lightly-active': 1.375,
+    'moderately-active': 1.55,
+    'active': 1.725,
+    'very-active': 1.9
+  }
+
   calculateCalorieNeeds(personalGoals){
     const BMR = this.calculateBMR(personalGoals);
     const goal = personalGoals.goal;
+    let AMR = 0;
 
-    // This calculation assumes that the user do little or no exercise
-    const AMR = BMR * 1.2
-    //const AMR = BMR * 1.55
+    if(personalGoals.activityLevel){
+      // This calculation based on the user's activity level
+      AMR = BMR * this.activityLevelConstants[personalGoals.activityLevel];
+    } else {
+      // This calculation assumes that the user do little or no exercise
+      AMR = BMR * 1.2
+    }
+
 
     // Calculate calorie needs based on user's goal
     let calorieNeed = AMR;

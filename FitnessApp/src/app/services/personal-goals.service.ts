@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { addDoc, collection, doc, Firestore, getDoc, setDoc } from 'firebase/firestore';
+import { addDoc, collection, doc, Firestore, getDoc, getDocs, query, QueryConstraint, setDoc, where, } from 'firebase/firestore';
+import { Observable, Subject, Subscriber } from 'rxjs';
 import { PersonalGoals } from '../shared/datatype/datatypes';
 import { AuthService } from './auth.service';
 
@@ -12,6 +13,11 @@ export class PersonalGoalsService {
   constructor(
     private authService:AuthService
   ) { }
+
+
+  // Publish/Subscribe
+  public personalGoalsObserver$: Subject<any> = new Subject();
+
 
   setFirestore(firestore: Firestore) {
     this.db = firestore
@@ -33,6 +39,7 @@ export class PersonalGoalsService {
       await setDoc(docRef, {
         weight: currentWeight,
         date: today,
+        userId: userId
       })
       return true;
     } catch (error) {
@@ -45,10 +52,31 @@ export class PersonalGoalsService {
     const result = await this.authService.savePersonalGoals(goals)
     if(result) {
       const isSavedForStatistics = await this.saveCurrentWeightForStatistics(goals.currentWeight);
+      this.personalGoalsObserver$.next(true);
       return isSavedForStatistics
     } else {
       return false;
     }
+  }
+
+  async getUserDailyWeights(startDateString:string){
+    const userId = (await this.authService.getUserData()).uid;
+    let result = [];
+    //console.log(startDateString);
+
+    //const query = this.db.collection('userDailyWeight').where('date', '>=', startDateString);
+    const q = query(collection(this.db, 'userDailyWeight'),
+        where("date", '>=', startDateString),
+        where("userId", "==", userId)
+    )
+
+    const querySnapshot = await getDocs(q);
+
+    querySnapshot.forEach((doc)=>{
+      result.push(doc.data());
+    })
+
+    return result;
   }
 
   async getPersonalGoals() {
@@ -73,3 +101,4 @@ export class PersonalGoalsService {
     else false;
   }
 }
+

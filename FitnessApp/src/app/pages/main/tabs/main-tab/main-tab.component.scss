@@ -7,3 +7,9 @@
   overflow: visible;
   text-overflow: ellipsis;
 }
+
+
+ion-toolbar {
+  --background: transparent;
+  --border-color: transparent;
+}
