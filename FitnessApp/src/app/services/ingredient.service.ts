@@ -28,7 +28,6 @@ export class IngredientService {
   }
 
   async getIngredients(startAfterNumber: QueryDocumentSnapshot | number, limitNumber: number){
-    console.log(startAfterNumber)
     try {
       let q;
       if(startAfterNumber === 0){

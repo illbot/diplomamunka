@@ -9,6 +9,7 @@ import { Camera, CameraResultType, CameraSource } from '@capacitor/camera'
 import { AddRecipeComponent } from './add-recipe/add-recipe.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastService } from 'src/app/services/toast.service';
+import { QueryDocumentSnapshot } from 'firebase/firestore';
 
 interface LocalFile {
   name: string;
@@ -25,6 +26,11 @@ export class RecipeTabComponent implements OnInit {
 
   recipeList: any[]
   favouriteRecipeList: any[]
+
+  // Needed for infinite Scroll
+  RECIPE_LIMIT_NUMBER = 5;
+  DB_Cursor: QueryDocumentSnapshot<unknown>;
+  isAllDataQueried: boolean = false;
 
   constructor(
     private recipeService: RecipeService,
@@ -60,26 +66,43 @@ export class RecipeTabComponent implements OnInit {
   }
 
   async getRecipes(){
-    const result = await this.recipeService.getRecipes();
-    this.recipeList = [];
+    const result = await this.recipeService.getRecipes(0,this.RECIPE_LIMIT_NUMBER);
+    if(result){
+      this.resetInfiniteScroll();
+      this.recipeList = [];
 
-    for(let recipe of result){
-      recipe.pictureUrl = await this.recipeService.getImageUrlFromStorage(recipe.pictureUrl);
-      recipe.isFavourite = this.isFavourite(recipe);
-      this.recipeList.push(recipe);
+      result.forEach(docs=>{
+        let recipe: any = docs.data()
+        recipe.isFavourite = this.isFavourite(recipe);
+        this.recipeList.push(recipe);
+      })
+      this.DB_Cursor = result.docs[result.docs.length-1];
+      console.log(this.recipeList);
     }
-
-    console.log(this.recipeList);
   }
 
-  onIonInfinite (ev){
-    this.recipeService.getRecipes().then(async result=>{
-      result.forEach(recipe => {
-        recipe.isFavourite = this.isFavourite(recipe);
-        this.recipeList.push(recipe)
-      });
-      (ev as InfiniteScrollCustomEvent).target.complete();
-    });
+  async onIonInfinite (ev){
+    if(!this.isAllDataQueried){
+      const result = await this.recipeService.getRecipes(this.DB_Cursor,this.RECIPE_LIMIT_NUMBER)
+
+      if(result){
+        result.forEach(docs => {
+          let recipe:any = docs.data();
+          recipe.isFavourite = this.isFavourite(recipe);
+          this.recipeList.push(recipe)
+        });
+        this.DB_Cursor = result.docs[result.docs.length-1];
+        if(result.docs.length < this.RECIPE_LIMIT_NUMBER) {
+          this.isAllDataQueried = true;
+        }
+      }
+    }
+    (ev as InfiniteScrollCustomEvent).target.complete();
+  }
+
+  private resetInfiniteScroll(){
+    this.isAllDataQueried = false;
+    this.DB_Cursor = undefined;
   }
 
   navigateToChild(recipe){

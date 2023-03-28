@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { tr } from 'date-fns/locale';
-import { addDoc, collection, doc, endAt, Firestore, getDoc, getDocs, limit, orderBy, query, setDoc, startAt, where } from 'firebase/firestore';
+import { addDoc, collection, doc, endAt, Firestore, getDoc, getDocs, limit, orderBy, query, QueryDocumentSnapshot, setDoc, startAfter, startAt, where } from 'firebase/firestore';
 import { deleteObject, FirebaseStorage, getDownloadURL, ref, uploadBytes, uploadString } from 'firebase/storage';
 import { Observable, Subscriber } from 'rxjs';
 import { Recipe, RecipeIngredients } from '../shared/datatype/datatypes';
@@ -183,19 +183,28 @@ export class RecipeService {
     }
   }
 
-  async getRecipes(){
-    let resultList: any[] = [];
+  async getRecipes(startAfterNumber: QueryDocumentSnapshot | number, limitNumber: number){
     try {
-      const qSnapshot = await getDocs(collection(this.db, 'recipes'))
-      qSnapshot.forEach(doc => {
-        let recipe = doc.data()
-        recipe.id = doc.id;
-        resultList.push(recipe)
-      });
-      return resultList;
+      let q;
+      if(startAfterNumber === 0){
+        q = query(
+          collection(this.db, 'recipes'),
+          orderBy('name'),
+          limit(limitNumber)
+        );
+      } else {
+        q = query(
+          collection(this.db, 'recipes'),
+          orderBy('name'),
+          startAfter(startAfterNumber),
+          limit(limitNumber)
+        );
+      }
+      const qSnapshot = await getDocs(q);
+      return qSnapshot;
     } catch (error) {
       console.error(error)
-      return resultList;
+      return false;
     }
   }
 

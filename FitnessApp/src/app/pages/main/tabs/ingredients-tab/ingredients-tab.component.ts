@@ -12,7 +12,7 @@ import { AddIngredientComponent } from './add-ingredient/add-ingredient.componen
 export class IngredientsTabComponent implements OnInit {
 
   ingredientList: any[];
-  LIMIT_NUMBER = 3;
+  LIMIT_NUMBER = 2;
   DB_Cursor: QueryDocumentSnapshot<unknown>;
 
   constructor(
@@ -31,6 +31,7 @@ export class IngredientsTabComponent implements OnInit {
         res.forEach(docs=>{
           this.ingredientList.push(docs.data());
         });
+        this.DB_Cursor = res.docs[res.docs.length-1];
         (ev as InfiniteScrollCustomEvent).target.complete()
       }
     });
@@ -58,7 +59,8 @@ export class IngredientsTabComponent implements OnInit {
       result.forEach(docs=>{
         this.ingredientList.push(docs.data());
       })
-      this.DB_Cursor = result.docs[result.docs.length-1]
+      this.DB_Cursor = result.docs[result.docs.length-1];
+      console.log(this.DB_Cursor);
     }
   }
 }
