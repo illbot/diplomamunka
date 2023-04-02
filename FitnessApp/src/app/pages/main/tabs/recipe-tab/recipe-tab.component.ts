@@ -26,6 +26,33 @@ export class RecipeTabComponent implements OnInit {
 
   recipeList: any[]
   favouriteRecipeList: any[]
+  @ViewChild(IonModal) modal: IonModal;
+  searchData = {
+    name: '',
+    chipData : [
+      {
+        name: 'Breakfast',
+        isSelected: false
+      },
+      {
+        name: 'Lunch',
+        isSelected: false
+      },
+      {
+        name: 'Dinner',
+        isSelected: false
+      },
+      {
+        name: 'Snack',
+        isSelected: false
+      },
+      {
+        name: 'Drink',
+        isSelected: false
+      },
+    ]
+  }
+
 
   // Needed for infinite Scroll
   RECIPE_LIMIT_NUMBER = 5;
@@ -122,7 +149,6 @@ export class RecipeTabComponent implements OnInit {
 
     const {data, role} = await modal.onWillDismiss();
     if(role ==='confirm') {
-      console.log(data);
       this.getRecipes();
     }
   }
@@ -151,6 +177,46 @@ export class RecipeTabComponent implements OnInit {
       if(!result){
         this.toastService.showErrorToast("Something went wrong! :(")
       }
+    }
+  }
+
+  async onFilterWillDismiss(event){
+    const ev = event as CustomEvent<OverlayEventDetail<string>>;
+    if(event.detail.role === 'cancel'){
+      console.log("cancel")
+      this.getRecipes();
+    }
+
+    if(ev.detail.role === 'confirm'){
+      const searchData = ev.detail.data;
+      console.log(searchData);
+
+      const result = await this.recipeService.getFilteredRecipes(searchData);
+      if(result){
+        this.recipeList = [];
+
+        result.forEach(docs=>{
+          let recipe: any = docs.data()
+          recipe.isFavourite = this.isFavourite(recipe);
+          this.recipeList.push(recipe);
+        })
+        console.log(this.recipeList);
+      }
+    }
+  }
+
+  filterCancel(){
+    this.modal.dismiss(null, 'cancel');
+  }
+
+  filterConfirm(){
+    this.modal.dismiss(this.searchData, 'confirm');
+  }
+
+  resetSearch(){
+    this.searchData.name='';
+    for(let chip of this.searchData.chipData){
+      chip.isSelected=false;
     }
   }
 }

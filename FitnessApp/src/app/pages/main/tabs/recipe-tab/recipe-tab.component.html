@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>Recipes</ion-title>
-    <ion-buttons slot="end">
+    <ion-buttons slot="end" id="openFilterModal">
       <ion-icon slot="start" color="primary" name="filter"></ion-icon>
     </ion-buttons>
   </ion-toolbar>
@@ -34,5 +34,51 @@
       </ion-fab-button>
     </ion-fab-list>
   </ion-fab>
+
+  <ion-modal trigger="openFilterModal" (willDismiss)="onFilterWillDismiss($event)">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-buttons slot="start">
+            <ion-button (click)="filterCancel()">Cancel</ion-button>
+          </ion-buttons>
+          <ion-title>Filter</ion-title>
+        </ion-toolbar>
+      </ion-header>
+
+      <ion-content class="ion-padding">
+
+        <h2>Name</h2>
+        <ion-item>
+          <ion-input type="text" placeholder="Name of food" [(ngModel)]="searchData.name"></ion-input>
+        </ion-item>
+        <br>
+
+        <h2>Category</h2>
+        <div>
+          <ion-chip
+            *ngFor="let chip of searchData.chipData"
+            color="primary"
+            [outline]="!chip.isSelected"
+            (click)="chip.isSelected=!chip.isSelected"
+          >
+          <ion-label>{{chip.name}}</ion-label>
+          </ion-chip>
+        </div>
+
+        <ion-button (click)="resetSearch()" color="danger" expand="block">
+          <ion-icon slot="start" name="close"></ion-icon>
+          Reset search
+        </ion-button>
+
+        <ion-button (click)="filterConfirm()" expand="block">
+          <ion-icon slot="start" name="search"></ion-icon>
+          Search
+        </ion-button>
+
+      </ion-content>
+
+    </ng-template>
+  </ion-modal>
 
 </ion-content>

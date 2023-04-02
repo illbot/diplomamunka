@@ -271,4 +271,39 @@ export class RecipeService {
     }
   }
 
+
+  async getFilteredRecipes(filterData: any){
+    try {
+      let recipes_ref = collection(this.db, 'recipes')
+
+      const chips = filterData.chipData.filter(chip => chip.isSelected )
+      const chipsNames = chips.map(obj=>obj.name);
+
+      let q;
+
+      if(filterData.name.length > 0 && chips.length){
+        q = query(recipes_ref,
+            where("name","==",filterData.name),
+            where("category", "in", chipsNames)
+          )
+      }
+      if(!(filterData.name.length > 0) && chips.length){
+        q = query(recipes_ref,
+          where('category', "in", chipsNames)
+        )
+      }
+      if(filterData.name.length > 0 && !chips.length){
+        q = query(recipes_ref,
+          where("name","==",filterData.name)
+        )
+      }
+
+
+      const qSnapshot = await getDocs(q);
+      return qSnapshot;
+    } catch (error) {
+      console.log(error)
+      return false;
+    }
+  }
 }

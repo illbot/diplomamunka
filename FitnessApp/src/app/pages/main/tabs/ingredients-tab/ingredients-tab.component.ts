@@ -12,7 +12,7 @@ import { AddIngredientComponent } from './add-ingredient/add-ingredient.componen
 export class IngredientsTabComponent implements OnInit {
 
   ingredientList: any[];
-  LIMIT_NUMBER = 2;
+  LIMIT_NUMBER = 10;
   DB_Cursor: QueryDocumentSnapshot<unknown>;
 
   constructor(
