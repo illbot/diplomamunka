@@ -35,20 +35,6 @@
 
   <div>
     <h3>
-      Progress
-      <ion-button class="ion-float-right" size="small" fill="clear">
-        <ion-icon name="pencil-outline"></ion-icon>
-      </ion-button>
-    </h3>
-    <ion-card>
-      <ion-card-content>
-        Here's a small text description for the card content. Nothing more, nothing less.
-      </ion-card-content>
-    </ion-card>
-  </div>
-
-  <div>
-    <h3>
       Goals
       <ion-button id="open-modal" class="ion-float-right" size="small" fill="clear">
         <ion-icon name="pencil-outline"></ion-icon>
@@ -70,6 +56,7 @@
         <strong>Goal: </strong> {{personalGoals.goal}} <br>
         <strong>Current weight: </strong> {{personalGoals.currentWeight}} kg<br>
         <strong>Goal weight: </strong> {{personalGoals.goalWeight}} kg<br>
+        <strong>Activity: </strong> {{personalGoals.activityLevel}} <br>
         <br>
         <h1>
           Keep up the good work, you can do it!
@@ -78,6 +65,10 @@
     </ion-card>
   </div>
 
+  <ion-button (click)="onLogoutClick()" expand="block" color="danger">
+    <ion-icon name="log-out-outline"></ion-icon>
+    Log out
+  </ion-button>
 
   <ion-modal trigger="open-modal" (willDismiss)="onWillDismiss($event)">
     <ng-template>

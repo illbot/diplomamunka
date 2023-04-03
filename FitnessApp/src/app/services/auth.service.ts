@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, Auth } from 'firebase/auth';
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, Auth, signOut } from 'firebase/auth';
 import { doc, Firestore, setDoc } from 'firebase/firestore';
 
 @Injectable({
@@ -41,8 +41,18 @@ export class AuthService {
     return loggedIn;
   }
 
+  async logOut(){
+    let loggedOut = false;
+    await signOut(this.auth).then(()=>{
+      loggedOut = true
+    }).catch(error=>{
+      console.log(error)
+    })
+    return loggedOut;
+  }
+
   async isSignedIn(){
-    let signedIn = false 
+    let signedIn = false
     await this.auth.onAuthStateChanged((user)=>{
       if(user){
         signedIn = true
@@ -80,4 +90,5 @@ export class AuthService {
       return false;
     }
   }
+
 }

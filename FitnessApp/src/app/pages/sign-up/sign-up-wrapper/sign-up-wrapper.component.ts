@@ -8,6 +8,7 @@ import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { PersonalGoals, UserData } from 'src/app/shared/datatype/datatypes';
 import { ToastService } from 'src/app/services/toast.service';
+import { PersonalGoalsService } from 'src/app/services/personal-goals.service';
 
 
 SwiperCore.use([Virtual])
@@ -44,19 +45,21 @@ export class SignUpWrapperComponent implements OnInit {
     birthDate: "",
     currentWeight: 0,
     goalWeight: 0,
-    height: 0
+    height: 0,
+    activityLevel: '',
   };
 
   progress = 0;
-  PROGRESS_ADD = (100/6)/100;
+  PROGRESS_ADD = (100/8)/100;
   registerLoading:HTMLIonLoadingElement;
 
   constructor(
     private toastController: ToastService,
     private authService: AuthService,
     private loadingCtrl: LoadingController,
-    private router: Router
-    ) { 
+    private router: Router,
+    private personalGoalsService: PersonalGoalsService
+    ) {
       this.loadingCtrl.create({
         message: 'Register...'
       }).then(res=> this.registerLoading = res);
@@ -76,18 +79,18 @@ export class SignUpWrapperComponent implements OnInit {
     //console.log(this.swiper.swiperRef.realIndex); // get actual
     // TODO: change progressbar value
 
-    if(this.swiper.swiperRef.isBeginning){ 
+    if(this.swiper.swiperRef.isBeginning){
       // First register slide
 
       if(!this.loggedIn){
         //TODO: check user inputs
         this.registerNewUser();
       } else {
-        this.swiper.swiperRef.slideNext(100); 
+        this.swiper.swiperRef.slideNext(100);
         this.addToProgressBar();
       }
 
-    } else if (this.swiper.swiperRef.isEnd) { 
+    } else if (this.swiper.swiperRef.isEnd) {
       // Last slide
 
       this.savePersonalGoals().then((res)=>{
@@ -95,7 +98,7 @@ export class SignUpWrapperComponent implements OnInit {
         else this.toastController.showErrorToast("Saving personal goals failed!")
       })
 
-    } else { 
+    } else {
       // All the other slides
 
       this.swiper.swiperRef.slideNext(100);
@@ -166,6 +169,6 @@ export class SignUpWrapperComponent implements OnInit {
   async savePersonalGoals(){
     let userData = await this.authService.getUserData();
     this.personalGoals.userID = userData.uid;
-    return this.authService.savePersonalGoals(this.personalGoals);
+    return this.personalGoalsService.savePersonalGoals(this.personalGoals);
   }
 }

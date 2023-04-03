@@ -1,7 +1,9 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 import { IonModal } from '@ionic/angular';
 import { OverlayEventDetail } from '@ionic/core';
 import { Subscription } from 'rxjs';
+import { AuthService } from 'src/app/services/auth.service';
 import { PersonalGoalsService } from 'src/app/services/personal-goals.service';
 import { ToastService } from 'src/app/services/toast.service';
 import { PersonalGoals } from 'src/app/shared/datatype/datatypes';
@@ -33,6 +35,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
   constructor(
     private personalGoalsService: PersonalGoalsService,
     private toastService: ToastService,
+    private authService: AuthService,
+    private routing: Router
   ) {
     this.personalGoalsSubscription = this.personalGoalsService.personalGoalsObserver$.subscribe(value=>{
       if(value)
@@ -109,5 +113,16 @@ export class ProfileComponent implements OnInit, OnDestroy {
     });
 
     this.modal.dismiss(this.name, 'confirm');
+  }
+
+  onLogoutClick() {
+    this.authService.logOut().then((res)=>{
+      if(res){
+        this.toastService.showSuccessToast("Logged out!");
+        this.routing.navigate(['home']);
+      } else {
+        this.toastService.showErrorToast("Log out failed!");
+      }
+    })
   }
 }

@@ -21,6 +21,7 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import {HttpClient} from '@angular/common/http/index';
 import { AddRecipeComponent } from './pages/main/tabs/recipe-tab/add-recipe/add-recipe.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { EightComponent } from './pages/sign-up/slides/eight/eight.component';
 
 //export function HttpLoaderFactory(http: HttpClient){
 //  return new TranslateHttpLoader(http,"./assets/i18n",".json")
@@ -37,6 +38,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     FifthComponent,
     SixthComponent,
     SeventhComponent,
+    EightComponent,
   ],
   imports: [
     BrowserModule,
