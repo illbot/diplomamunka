@@ -25,6 +25,7 @@ interface LocalFile {
 export class RecipeTabComponent implements OnInit {
 
   recipeList: any[]
+  isInfiniteScroll: boolean = true;
   favouriteRecipeList: any[]
   @ViewChild(IonModal) modal: IonModal;
   searchData = {
@@ -183,26 +184,52 @@ export class RecipeTabComponent implements OnInit {
   async onFilterWillDismiss(event){
     const ev = event as CustomEvent<OverlayEventDetail<string>>;
     if(event.detail.role === 'cancel'){
-      console.log("cancel")
+      console.log("cancel");
+      this.isInfiniteScroll = true;
       this.getRecipes();
     }
 
     if(ev.detail.role === 'confirm'){
       const searchData = ev.detail.data;
+      this.isInfiniteScroll = false;
       console.log(searchData);
 
-      const result = await this.recipeService.getFilteredRecipes(searchData);
-      if(result){
-        this.recipeList = [];
+      if(this.isSearchFieldsSet(searchData)){
+        const result = await this.recipeService.getFilteredRecipes(searchData);
+        if(result){
+          this.recipeList = [];
 
-        result.forEach(docs=>{
-          let recipe: any = docs.data()
-          recipe.isFavourite = this.isFavourite(recipe);
-          this.recipeList.push(recipe);
-        })
-        console.log(this.recipeList);
+          result.forEach(docs=>{
+            let recipe: any = docs.data()
+            recipe.isFavourite = this.isFavourite(recipe);
+            this.recipeList.push(recipe);
+          })
+          console.log(this.recipeList);
+        }
+      } else {
+        this.isInfiniteScroll = true;
+        this.getRecipes();
       }
+
+
     }
+  }
+
+  private isSearchFieldsSet(searchData){
+    let result = false;
+
+    if(searchData.name !== '')
+      result = true;
+    else {
+      searchData.chipData.forEach(chip => {
+        if(chip.isSelected){
+          result = true;
+        }
+      });
+    }
+
+
+    return result;
   }
 
   filterCancel(){
