@@ -12,3 +12,6 @@ FitnessApp/ios/App/App/config 10.xml
 FitnessApp/ios/App/App/config 11.xml
 FitnessApp/ios/App/App/config 12.xml
 FitnessApp/ios/App/App/config 13.xml
+*.js
+*.xml
+*.icloud
