@@ -157,6 +157,25 @@ export class AddRecipeComponent implements OnInit, AfterViewInit {
     });
   }
 
+  createSearchfieldForFirebase(){
+    this.newRecipe.searchField = Array<string>();
+    let nameArray = this.newRecipe.name.toLowerCase().trim().split(" ");
+    for(let name of nameArray){
+      let toSearchField = "";
+      for(let letter of name){
+        toSearchField = toSearchField+letter;
+        this.newRecipe.searchField.push(toSearchField);
+      }
+    }
+    let toSearchField = "";
+    for(let letter of this.newRecipe.name){
+      toSearchField = toSearchField+letter;
+      this.newRecipe.searchField.push(toSearchField);
+    }
+    this.newRecipe.searchField = Array.from(new Set(this.newRecipe.searchField));
+  }
+
+
   async onUploadRecipe(){
 
     //TODO: Check Inputs
@@ -180,6 +199,8 @@ export class AddRecipeComponent implements OnInit, AfterViewInit {
       this.loadingElement.dismiss();
       return;
     }
+
+    this.createSearchfieldForFirebase();
 
     this.newRecipe.calories = this.calories;
     this.newRecipe.total_fat = this.total_fat;

@@ -30,6 +30,7 @@ export interface RecipeIngredients {
 }
 
 export interface Recipe {
+  searchField?: any
   isFavourite?: any
   name: string,
   category: string,
