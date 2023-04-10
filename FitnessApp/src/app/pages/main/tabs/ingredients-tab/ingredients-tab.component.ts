@@ -14,6 +14,7 @@ export class IngredientsTabComponent implements OnInit {
   ingredientList: any[];
   LIMIT_NUMBER = 10;
   DB_Cursor: QueryDocumentSnapshot<unknown>;
+  isAllDataQueried:boolean = false;
 
   constructor(
     private modalCtrl: ModalController,
@@ -26,15 +27,20 @@ export class IngredientsTabComponent implements OnInit {
   }
 
   onIonInfinite(ev) {
-    this.ingredientService.getIngredients(this.DB_Cursor,this.LIMIT_NUMBER).then(res => {
-      if(res){
-        res.forEach(docs=>{
-          this.ingredientList.push(docs.data());
-        });
-        this.DB_Cursor = res.docs[res.docs.length-1];
-        (ev as InfiniteScrollCustomEvent).target.complete()
-      }
-    });
+    if(!this.isAllDataQueried){
+      this.ingredientService.getIngredients(this.DB_Cursor,this.LIMIT_NUMBER).then(res => {
+        if(res){
+          res.forEach(docs=>{
+            this.ingredientList.push(docs.data());
+          });
+          this.DB_Cursor = res.docs[res.docs.length-1];
+          if(res.docs.length < this.LIMIT_NUMBER) {
+            this.isAllDataQueried = true;
+          }
+        }
+      });
+    }
+    (ev as InfiniteScrollCustomEvent).target.complete();
   }
 
   async onAddClick(){
