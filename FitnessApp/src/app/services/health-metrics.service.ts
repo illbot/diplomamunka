@@ -61,7 +61,7 @@ export class HealthMetricsService {
 
     if(gender === "man"){
       result = this._calculateBMR(weight,height,age,true);
-    } else {
+    } else if(gender === "woman") {
       result = this._calculateBMR(weight,height,age,false);
     }
 
