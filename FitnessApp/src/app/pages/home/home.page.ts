@@ -4,6 +4,7 @@ import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } f
 import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
 import { PersonalGoalsService } from 'src/app/services/personal-goals.service';
+import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
   selector: 'app-home',
@@ -21,11 +22,12 @@ export class HomePage {
     private authService: AuthService,
     private router: Router,
     private personalGoalsService: PersonalGoalsService,
+    private toast: ToastService
   ) {
     // NOT WORKING
     this.authService.isSignedIn().then((isSignedIn)=>{
       if(isSignedIn){
-        this.navigateToMain(); 
+        this.navigateToMain();
       }
     })
   }
@@ -35,7 +37,7 @@ export class HomePage {
       if(res) {
         this.navigateToMain();
       } else {
-        console.log("hiba")
+        this.toast.showErrorToast("Bad email or password!");
       }
     })
   }

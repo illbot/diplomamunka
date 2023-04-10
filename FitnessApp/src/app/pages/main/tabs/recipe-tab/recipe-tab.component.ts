@@ -72,8 +72,9 @@ export class RecipeTabComponent implements OnInit {
 
   async ngOnInit() {
     this.recipeService.createDailyEatenFood();
-    await this.getFavouriteRecipes();
-    this.getRecipes();
+    this.getFavouriteRecipes().then(()=>{
+      this.getRecipes();
+    });
   }
 
   onEat(element){
@@ -101,6 +102,7 @@ export class RecipeTabComponent implements OnInit {
 
       result.forEach(docs=>{
         let recipe: any = docs.data()
+        recipe.id = docs.id;
         recipe.isFavourite = this.isFavourite(recipe);
         this.recipeList.push(recipe);
       })
@@ -116,6 +118,7 @@ export class RecipeTabComponent implements OnInit {
       if(result){
         result.forEach(docs => {
           let recipe:any = docs.data();
+          recipe.id = docs.id;
           recipe.isFavourite = this.isFavourite(recipe);
           this.recipeList.push(recipe)
         });
